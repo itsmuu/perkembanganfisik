@@ -135,103 +135,101 @@
   </div>
 
 
-  <div style="position: absolute; left: -9999px; top: -9999px;">
-    <div id="rapor-fisik-pdf-template" style="width: 210mm; min-height: 297mm; background: #ffffff; padding: 20mm 20mm 20mm 20mm; font-family: 'Times New Roman', Times, serif; color: #000000; line-height: 1.3; font-size: 11pt; box-sizing: border-box;">
-        
-        <div style="border-bottom: 3px solid #000000; padding-bottom: 5px; margin-bottom: 15px; position: relative; text-align: center;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Coat_of_arms_of_Riau_Islands.svg" style="position: absolute; left: 5px; top: 0; width: 65px; height: auto;">
-            <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" style="position: absolute; right: 5px; top: 0; width: 65px; height: auto;">
-            
-            <div style="padding: 0 75px;">
-                <h1 style="font-size: 14pt; margin: 0; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Pemerintah Provinsi Kepulauan Riau</h1>
-                <h2 style="font-size: 12pt; margin: 2px 0 0 0; text-transform: uppercase; font-weight: bold;">Dinas Pendidikan</h2>
-                <h3 style="font-size: 16pt; margin: 2px 0 0 0; text-transform: uppercase; font-weight: bold;">SMK NEGERI 1 BATAM</h3>
-                <p style="font-size: 9pt; margin: 4px 0 0 0; font-family: Arial, sans-serif;">Jl. Prof. Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam<br>
-                Kode Pos 29422 Telepon (0778) 365909<br>
-                E-mail : mail@smkn1batam.sch.id, Website : www.smkn1batam.sch.id</p>
-            </div>
-        </div>
+  <div id="rapor-fisik-pdf-template" style="display: none; width: 210mm; background: #ffffff; padding: 20mm 15mm 15mm 15mm; font-family: 'Times New Roman', Times, serif; color: #000000; line-height: 1.3; font-size: 11pt;">
+      
+      <div style="border-bottom: 3px solid #000000; padding-bottom: 5px; margin-bottom: 15px; position: relative; text-align: center;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Coat_of_arms_of_Riau_Islands.svg" style="position: absolute; left: 5px; top: 0; width: 65px; height: auto;">
+          <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" style="position: absolute; right: 5px; top: 0; width: 65px; height: auto;">
+          
+          <div style="padding: 0 75px;">
+              <h1 style="font-size: 14pt; margin: 0; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Pemerintah Provinsi Kepulauan Riau</h1>
+              <h2 style="font-size: 12pt; margin: 2px 0 0 0; text-transform: uppercase; font-weight: bold;">Dinas Pendidikan</h2>
+              <h3 style="font-size: 16pt; margin: 2px 0 0 0; text-transform: uppercase; font-weight: bold;">SMK NEGERI 1 BATAM</h3>
+              <p style="font-size: 9pt; margin: 4px 0 0 0; font-family: Arial, sans-serif;">Jl. Prof. Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam<br>
+              Kode Pos 29422 Telepon (0778) 365909<br>
+              E-mail : mail@smkn1batam.sch.id, Website : www.smkn1batam.sch.id</p>
+          </div>
+      </div>
 
-        <div style="text-align: center; margin-top: 20px; margin-bottom: 25px;">
-            <h4 style="font-size: 12pt; margin: 0; text-transform: uppercase; font-weight: bold;">Catatan Individu Perkembangan Fisik Siswa</h4>
-            <p style="font-size: 11pt; margin: 5px 0 0 0; text-transform: uppercase; font-weight: bold;">Semester Ganjil<br>Tahun Pelajaran : 2025 / 2026</p>
-        </div>
+      <div style="text-align: center; margin-top: 20px; margin-bottom: 25px;">
+          <h4 style="font-size: 12pt; margin: 0; text-transform: uppercase; font-weight: bold;">Catatan Individu Perkembangan Fisik Siswa</h4>
+          <p style="font-size: 11pt; margin: 5px 0 0 0; text-transform: uppercase; font-weight: bold;">Semester Ganjil<br>Tahun Pelajaran : 2025 / 2026</p>
+      </div>
 
-        <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; font-size: 11pt;">
-            <tr>
-                <td style="width: 15%; padding: 4px 0; text-transform: uppercase;">Nama</td>
-                <td style="width: 2%; padding: 4px 0;">:</td>
-                <td id="pdf-nama" style="width: 83%; padding: 4px 0; font-weight: bold; text-transform: uppercase;">-</td>
-            </tr>
-            <tr>
-                <td style="padding: 4px 0; text-transform: uppercase;">NIS / NISN</td>
-                <td style="padding: 4px 0;">:</td>
-                <td id="pdf-nisn" style="padding: 4px 0; text-transform: uppercase;">-</td>
-            </tr>
-            <tr>
-                <td style="padding: 4px 0; text-transform: uppercase;">Kelas</td>
-                <td style="padding: 4px 0;">:</td>
-                <td id="pdf-kelas" style="padding: 4px 0; text-transform: uppercase;">-</td>
-            </tr>
-        </table>
+      <table style="width: 100%; margin-bottom: 20px; border-collapse: collapse; font-size: 11pt;">
+          <tr>
+              <td style="width: 15%; padding: 4px 0; text-transform: uppercase;">Nama</td>
+              <td style="width: 2%; padding: 4px 0;">:</td>
+              <td id="pdf-nama" style="width: 83%; padding: 4px 0; font-weight: bold; text-transform: uppercase;">-</td>
+          </tr>
+          <tr>
+              <td style="padding: 4px 0; text-transform: uppercase;">NIS / NISN</td>
+              <td style="padding: 4px 0;">:</td>
+              <td id="pdf-nisn" style="padding: 4px 0; text-transform: uppercase;">-</td>
+          </tr>
+          <tr>
+              <td style="padding: 4px 0; text-transform: uppercase;">Kelas</td>
+              <td style="padding: 4px 0;">:</td>
+              <td id="pdf-kelas" style="padding: 4px 0; text-transform: uppercase;">-</td>
+          </tr>
+      </table>
 
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-            <thead>
-                <tr>
-                    <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Berkaca Mata<br>(YA/TIDAK)</th>
-                    <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Lingkar Kepala<br>(CM)</th>
-                    <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Tinggi Badan<br>(CM)</th>
-                    <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Berat Badan<br>(KG)</th>
-                </tr>
-                <tr>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
-                    <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="text-transform: uppercase; font-size: 10pt; height: 30px;">
-                    <td id="pdf-kaca-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-kaca-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-kepala-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-kepala-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-tinggi-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-tinggi-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-berat-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                    <td id="pdf-berat-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
-                </tr>
-            </tbody>
-        </table>
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+          <thead>
+              <tr>
+                  <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Berkaca Mata<br>(YA/TIDAK)</th>
+                  <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Lingkar Kepala<br>(CM)</th>
+                  <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Tinggi Badan<br>(CM)</th>
+                  <th colspan="2" style="border: 1px solid #000; text-align: center; padding: 6px; font-size: 10pt; text-transform: uppercase; font-weight: bold;">Berat Badan<br>(KG)</th>
+              </tr>
+              <tr>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Awal<br>Semester</th>
+                  <th style="border: 1px solid #000; text-align: center; padding: 4px; font-size: 8pt; text-transform: uppercase; font-weight: bold; width: 12.5%;">Akhir<br>Semester</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr style="text-transform: uppercase; font-size: 10pt; height: 30px;">
+                  <td id="pdf-kaca-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-kaca-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-kepala-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-kepala-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-tinggi-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-tinggi-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-berat-awal" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+                  <td id="pdf-berat-akhir" style="border: 1px solid #000; text-align: center; padding: 8px;">-</td>
+              </tr>
+          </tbody>
+      </table>
 
-        <div style="border: 1px solid #000000; width: 100%; padding: 15px; margin-bottom: 40px; min-height: 140px; box-sizing: border-box;">
-            <div style="font-size: 10pt; font-weight: bold; text-transform: uppercase; margin-bottom: 15px;">Catatan Wali Kelas :</div>
-            <div id="pdf-catatan" style="text-align: center; font-size: 11pt; line-height: 1.5; padding: 0 15px;">
-                </div>
-        </div>
+      <div style="border: 1px solid #000000; width: 100%; padding: 15px; margin-bottom: 40px; min-height: 140px;">
+          <div style="font-size: 10pt; font-weight: bold; text-transform: uppercase; margin-bottom: 15px;">Catatan Wali Kelas :</div>
+          <div id="pdf-catatan" style="text-align: center; font-size: 11pt; line-height: 1.5; padding: 0 15px;">
+              </div>
+      </div>
 
-        <table style="width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 11pt;">
-            <tr>
-                <td style="width: 50%; vertical-align: top;">
-                    Mengetahui<br>
-                    Orangtua/Wali Murid,
-                    <div style="height: 75px;"></div>
-                    __________________________
-                </td>
-                <td style="width: 50%; vertical-align: top; padding-left: 15%;">
-                    Batam, <span id="pdf-tanggal-cetak">-</span><br>
-                    Wali Kelas,
-                    <div style="height: 75px;"></div>
-                    <span style="font-weight: bold; text-decoration: underline;">Mugiyono, S.Com.</span><br>
-                    NIPPPK. 199808062025211083
-                </td>
-            </tr>
-        </table>
-    </div>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 25px; font-size: 11pt;">
+          <tr>
+              <td style="width: 50%; vertical-align: top;">
+                  Mengetahui<br>
+                  Orangtua/Wali Murid,
+                  <div style="height: 70px;"></div>
+                  __________________________
+              </td>
+              <td style="width: 50%; vertical-align: top; padding-left: 15%;">
+                  Batam, <span id="pdf-tanggal-cetak">-</span><br>
+                  Wali Kelas,
+                  <div style="height: 70px;"></div>
+                  <span style="font-weight: bold; text-decoration: underline;">Mugiyono, S.Com.</span><br>
+                  NIPPPK. 199808062025211083
+              </td>
+          </tr>
+      </table>
   </div>
 
 
@@ -256,11 +254,13 @@
           document.getElementById('btnLogin').disabled = false;
 
           if (response.sukses) {
+            // Set data teks identitas atas
             document.getElementById('txtNama').innerText = response.nama;
             document.getElementById('txtNisn').innerText = response.nisn;
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
 
+            // FITUR SESSION STORAGE: Cek apakah ada draft ketikan lama di browser
             const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
             
             if (draft) {
@@ -284,6 +284,7 @@
               document.getElementById('beratAkhir').value = response.beratAkhir || "";
             }
 
+            // Pindah halaman ke Formulir Input
             document.getElementById('pageLogin').classList.remove('active-page');
             document.getElementById('pageForm').classList.add('active-page');
           } else {
@@ -357,8 +358,9 @@
         });
     }
 
-    // FUNGSI UTAMA PERBAIKAN GENERATOR PDF
+    // FUNGSI BARU: PEMPROSES DAN GENERATOR PDF LEMBAR RESMI
     function prosesDanCetakPDF() {
+      // Ambil nilai data yang sedang tertera di form
       const namaSiswa = document.getElementById('txtNama').innerText || '-';
       const nisnSiswa = document.getElementById('txtNisn').innerText || '-';
       const kelasSiswa = document.getElementById('txtKelas').innerText || '-';
@@ -372,12 +374,13 @@
       const beratAwal = document.getElementById('beratAwal').value || '-';
       const beratAkhir = document.getElementById('beratAkhir').value || '-';
 
+      // Validasi sederhana jika data masih kosong
       if(!tinggiAwal && !tinggiAkhir) {
           alert("Mohon isi indikator fisik terlebih dahulu sebelum mengunduh PDF!");
           return;
       }
 
-      // Memetakan data ke dalam ID cetak PDF
+      // Suntikkan data di atas ke dalam elemen template rapor fisik PDF
       document.getElementById('pdf-nama').innerText = namaSiswa;
       document.getElementById('pdf-nisn').innerText = nisnSiswa;
       document.getElementById('pdf-kelas').innerText = kelasSiswa;
@@ -395,7 +398,7 @@
       let tinggiAcuan = tinggiAkhir > 0 ? tinggiAkhir : tinggiAwal;
       let bbIdeal = tinggiAcuan - 100;
       if (tinggiAcuan > 150) {
-          bbIdeal = bbIdeal - (bbIdeal * 0.1);
+          bbIdeal = bbIdeal - (bbIdeal * 0.1); // Penyesuaian rumus remaja/dewasa
       }
       bbIdeal = Math.round(bbIdeal);
 
@@ -411,20 +414,23 @@
       const tgl = new Date();
       document.getElementById('pdf-tanggal-cetak').innerText = `${tgl.getDate()} ${listBulan[tgl.getMonth()]} ${tgl.getFullYear()}`;
 
-      // Eksekusi Render PDF menggunakan html2pdf.js dengan setingan anti-split halaman
+      // Eksekusi Pembuatan Dokumen PDF
       const cetakArea = document.getElementById('rapor-fisik-pdf-template');
+      cetakArea.style.display = 'block'; // Diaktifkan sejenak agar bisa dicapture oleh library
 
       const konfigurasi = {
-          margin:       0,
+          margin:       0, // Sisi margin dokumen diposisikan dari CSS internal wrapper
           filename:     `Catatan_Fisik_${namaSiswa.trim().replace(/\s+/g, '_')}.pdf`,
           image:        { type: 'jpeg', quality: 1.0 },
-          html2canvas:  { scale: 3, useCORS: true, logging: false },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['avoid-all'] } // Mencegah pemotongan elemen ke halaman kedua
+          html2canvas:  { scale: 3, useCORS: true, logging: false }, // Skala tinggi 3 agar teks tajam dan tidak pecah saat diprint
+          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // Jalankan download PDF secara instan
-      html2pdf().set(konfigurasi).from(cetakArea).save().catch(err => {
+      // Proses render dan unduh otomatis file PDF
+      html2pdf().set(konfigurasi).from(cetakArea).save().then(() => {
+          cetakArea.style.display = 'none'; // Sembunyikan kembali template setelah PDF selesai diunduh
+      }).catch(err => {
+          cetakArea.style.display = 'none';
           alert("Terjadi kesalahan saat memproses pembuatan PDF.");
           console.error(err);
       });
