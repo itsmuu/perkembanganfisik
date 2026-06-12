@@ -23,12 +23,12 @@
     
     <div id="pageLogin" class="page active-page mt-5">
       <div class="card card-custom" style="max-width: 480px;">
-        <img src="https://smkn1batam.sch.id/wp-content/uploads/2023/12/LogoSekolah.png" class="header-logo" alt="Logo Sekolah">
+        <img src="https://ruangbelajar.smkn1batam.sch.id/" class="header-logo" alt="Logo Sekolah">
         <h4 class="text-center fw-bold mb-1" style="color: #1e3a8a;">Form Pendataan Fisik</h4>
         <p class="text-muted text-center small mb-4">Silakan masukkan NISN Anda untuk mengisi data</p>
         
         <div class="mb-4">
-          <label for="nisnInput" class="form-label fw-semibold">NISN</label>
+          <label for="nisnInput" class="form-label fw-semibold">NISN Siswa (10 Digit)</label>
           <input type="text" id="nisnInput" class="form-control form-control-lg" placeholder="Contoh: 0085538355" autocomplete="off">
         </div>
         
@@ -133,16 +133,16 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbyei8K12Vqln8DteXQpHer8uatZqWUtlNa27OxyB_4_QjOoHbYf0ngzlHrEBsG0KUpBHA/exec";
 
     function prosesLogin() {
-      const Value = document.getElementById('Input').value.trim();
-      if (!Value) {
-        alert("Silakan masukkan  Anda!");
+      const nisnValue = document.getElementById('nisnInput').value.trim();
+      if (!nisnValue) {
+        alert("Silakan masukkan NISN Anda!");
         return;
       }
 
       document.getElementById('loadingLogin').style.display = 'block';
       document.getElementById('btnLogin').disabled = true;
 
-      fetch(`${API_URL}?aksi=login&=${Value}`)
+      fetch(`${API_URL}?aksi=login&nisn=${nisnValue}`)
         .then(res => res.json())
         .then(response => {
           document.getElementById('loadingLogin').style.display = 'none';
@@ -151,7 +151,7 @@
           if (response.sukses) {
             // Set data teks identitas atas
             document.getElementById('txtNama').innerText = response.nama;
-            document.getElementById('txt').innerText = response.nisn;
+            document.getElementById('txtNisn').innerText = response.nisn;
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
 
