@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catatan Perkembangan Fisik Siswa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Arial, sans-serif; }
+    .main-container { padding-top: 40px; padding-bottom: 60px; }
+    
+    /* Login Box */
+    .card-login { max-width: 500px; margin: 0 auto; border-radius: 20px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    .btn-primary-custom { background-color: #2563eb; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; }
+    .btn-primary-custom:hover { background-color: #1d4ed8; }
+
+    /* Rapor Fisik Style (Replika Gambar) */
+    .card-rapor { max-width: 800px; margin: 0 auto; border-radius: 0; border: 1px solid #111; background: #fff; padding: 40px !important; }
+    .header-instansi { border-bottom: 3px double #000; padding-bottom: 12px; margin-bottom: 20px; }
+    .logo-img { max-height: 80px; }
+    .judul-dokumen { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; margin-top: 15px; letter-spacing: 0.5px; }
+    
+    .biodata-section { font-size: 0.95rem; margin-bottom: 20px; font-weight: 500; }
+    .table-rapor { border: 1px solid #000 !important; }
+    .table-rapor th, .table-rapor td { border: 1px solid #000 !important; text-align: center; vertical-align: middle; font-size: 0.88rem; padding: 8px; }
+    .table-rapor th { text-transform: uppercase; font-weight: 700; background-color: #ffffff; }
+    
+    .catatan-wali { border: 1px solid #000; padding: 15px; min-height: 80px; font-size: 0.9rem; margin-top: 15px; }
+    .saran-section { font-size: 1rem; line-height: 1.6; text-align: center; margin-top: 30px; font-weight: 500; }
+    
+    /* Navigasi */
+    .page { display: none; }
+    .active-page { display: block; }
+    @media print {
+      .no-print { display: none !important; }
+      .card-rapor { border: none; padding: 0 !important; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container main-container">
+    
+    <div id="pageLogin" class="page active-page mt-5">
+      <div class="card card-login p-4">
+        <h4 class="text-center mb-1 fw-bold">Cek Perkembangan Fisik</h4>
+        <p class="text-muted text-center small mb-4">Masukkan NISN Siswa untuk melihat catatan perkembangan ganjil</p>
+        
+        <div class="mb-3">
+          <label for="nisnInput" class="form-label fw-semibold">NISN Siswa</label>
+          <input type="text" id="nisnInput" class="form-control" placeholder="Contoh: 0085538355" autocomplete="off">
+        </div>
+        
+        <button onclick="cariDataFisik()" id="btnCari" class="btn btn-primary-custom w-100">Lihat Catatan Fisik</button>
+        
+        <div id="loading" class="text-center mt-3" style="display:none;">
+          <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+          <span class="text-muted small ms-2">Mengambil data dari server...</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="pageHasil" class="page">
+      
+      <div class="max-width: 800px; margin: 0 auto; class='d-flex justify-content-between mb-3 no-print' style='max-width: 800px; margin: 0 auto;'>
+        <button onclick="kembali()" class="btn btn-secondary btn-sm">← Kembali</button>
+        <button onclick="window.print()" class="btn btn-success btn-sm">Cetak / Save PDF 🖨️</button>
+      </div>
+
+      <div class="card card-rapor">
+        <div class="header-instansi d-flex align-items-center justify-content-between">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Coat_of_arms_of_Riau_Islands.svg" class="logo-img" alt="Logo Provinsi Riau">
+          <div class="text-center flex-grow-1 px-2">
+            <h5 class="mb-0 fw-bold" style="font-size: 1.15rem;">PEMERINTAH PROVINSI KEPULAUAN RIAU</h5>
+            <h5 class="mb-0 fw-bold" style="font-size: 1.1rem;">DINAS PENDIDIKAN</h5>
+            <h4 class="mb-0 fw-bold" style="font-size: 1.4rem; letter-spacing: 0.5px;">SMK NEGERI 1 BATAM</h4>
+            <small class="d-block text-muted" style="font-size: 0.72rem; font-weight: 500;">Jl. Prof Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam | Kode Pos 29422 Telpon (0778) 365909</small>
+            <small class="d-block text-muted" style="font-size: 0.72rem; font-weight: 500;">E-mail: mail@smkn1batam.sch.id | Website: www.smkn1batam.sch.id</small>
+          </div>
+          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjI3E3gU97_gM0FwOveCqU6E769xYVvLms14V86Fv4uK6fP9YIInO4wE-VIn-X7Mv0CgQ/s200/Logo%252BSMKN%252B1%252BBatam.png" class="logo-img" alt="Logo SMKN 1 Batam" onerror="this.style.display='none'">
+        </div>
+
+        <div class="text-center mb-4">
+          <h5 class="judul-dokumen mb-1">CATATAN INDIVIDU PERKEMBANGAN FISIK SISWA</h5>
+          <h6 class="fw-bold text-uppercase" style="font-size: 0.95rem;">SEMESTER GANJIL</h6>
+          <p class="mb-0 fw-medium" style="font-size: 0.95rem;">TAHUN PELAJARAN : 2025 / 2026</p>
+        </div>
+
+        <div class="row biodata-section g-1">
+          <div class="col-3">NAMA</div><div class="col-9">: <span id="lblNama" class="fw-bold"></span></div>
+          <div class="col-3">NIS / NISN</div><div class="col-9">: <span id="lblNisn"></span></div>
+          <div class="col-3">KELAS</div><div class="col-9">: <span id="lblKelas"></span></div>
+        </div>
+
+        <table class="table table-rapor table-bordered mt-3">
+          <thead>
+            <tr>
+              <th rowspan="2" width="25%">BERKACA MATA<br>(YA/TIDAK)</th>
+              <th rowspan="2" width="25%">LINGKAR KEPALA<br>(CM)</th>
+              <th rowspan="2" width="25%">TINGGI BADAN<br>(CM)</th>
+              <th rowspan="2" width="25%">BERAT BADAN<br>(KG)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background-color: #fcfcfc; font-weight: 600; font-size: 0.75rem;">
+              <td>
+                <div class="row g-0"><div class="col-6 border-end">AWAL SEMESTER</div><div class="col-6">AKHIR SEMESTER</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6 border-end">AWAL SEMESTER</div><div class="col-6">AKHIR SEMESTER</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6 border-end">AWAL SEMESTER</div><div class="col-6">AKHIR SEMESTER</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6 border-end">AWAL SEMESTER</div><div class="col-6">AKHIR SEMESTER</div></div>
+              </td>
+            </tr>
+            <tr style="font-weight: bold; font-size: 0.95rem;">
+              <td>
+                <div class="row g-0"><div class="col-6" id="vKacaAwal">-</div><div class="col-6" id="vKacaAkhir">-</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6" id="vKepalaAwal">-</div><div class="col-6" id="vKepalaAkhir">-</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6" id="vTinggiAwal">-</div><div class="col-6" id="vTinggiAkhir">-</div></div>
+              </td>
+              <td>
+                <div class="row g-0"><div class="col-6" id="vBeratAwal">-</div><div class="col-6" id="vBeratAkhir">-</div></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="fw-bold mt-4" style="font-size: 0.88rem; text-transform: uppercase;">CATATAN WALI KELAS :</div>
+        <div class="catatan-wali" id="lblCatatanWali">
+          Tidak ada catatan.
+        </div>
+
+        <div class="saran-section text-center" id="lblSaran">
+          -
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ⚠️ GANTI PADA BAGIAN INI DENGAN URL WEB APP KAMU YANG ASLI
+    const API_URL = "https://script.google.com/macros/s/AKfycbzUk6xzqilVnyizwYTTR0m7l6-t8Z2yki7GC63iqCFOciDAXwKvP0K7aZK4_uOiV4BRMQ/exec";
+
+    function cariDataFisik() {
+      const nisnValue = document.getElementById('nisnInput').value.trim();
+      if (!nisnValue) {
+        alert("Silakan isi NISN siswa terlebih dahulu!");
+        return;
+      }
+
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('btnCari').disabled = true;
+
+      // Melakukan Fetching data antar server (Cross-Origin AJAX)
+      fetch(`${API_URL}?nisn=${nisnValue}`)
+        .then(res => res.json())
+        .then(response => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('btnCari').disabled = false;
+
+          if (response.sukses) {
+            // Pasang Biodata Atas
+            document.getElementById('lblNama').innerText = response.nama;
+            document.getElementById('lblNisn').innerText = response.nisn;
+            document.getElementById('lblKelas').innerText = response.kelas;
+
+            // Pasang Nilai Angka Matriks
+            document.getElementById('vKacaAwal').innerText = response.kacamataAwal || "-";
+            document.getElementById('vKacaAkhir').innerText = response.kacamataAkhir || "-";
+            document.getElementById('vKepalaAwal').innerText = response.kepalaAwal || "-";
+            document.getElementById('vKepalaAkhir').innerText = response.kepalaAkhir || "-";
+            document.getElementById('vTinggiAwal').innerText = response.tinggiAwal || "-";
+            document.getElementById('vTinggiAkhir').innerText = response.tinggiAkhir || "-";
+            document.getElementById('vBeratAwal').innerText = response.beratAwal || "-";
+            document.getElementById('vBeratAkhir').innerText = response.beratAkhir || "-";
+
+            // Pasang Catatan Informasi Bawah
+            document.getElementById('lblCatatanWali').innerText = response.catatanWali || "Tidak ada catatan.";
+            document.getElementById('lblSaran').innerText = response.saran || "";
+
+            // Pindah Halaman Tampilan Rapor
+            document.getElementById('pageLogin').classList.remove('active-page');
+            document.getElementById('pageHasil').classList.add('active-page');
+          } else {
+            alert(response.pesan || "Kombinasi NISN salah atau tidak terdaftar!");
+          }
+        })
+        .catch(err => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('btnCari').disabled = false;
+          alert("Koneksi gagal/Server sibuk. Laporkan ke Tim IT Admin sekolah.");
+          console.error(err);
+        });
+    }
+
+    function kembali() {
+      document.getElementById('pageHasil').classList.remove('active-page');
+      document.getElementById('pageLogin').classList.add('active-page');
+      document.getElementById('nisnInput').value = "";
+    }
+  </script>
+</body>
+</html>
