@@ -21,11 +21,13 @@
     .page { display: none; }
     .active-page { display: block; }
     
-    /* Perbaikan Kotak Pembungkus: Terbaca Sempurna oleh PDF Engine tapi Tersembunyi di Layar */
-    .pdf-hidden-wrapper {
-      height: 0;
-      overflow: hidden;
-      position: relative;
+    /* =================================================================== */
+    /* STRATEGI BARU: Sembunyikan dari Layar Monitor, Tapi Tetap Ada untuk PDF */
+    /* =================================================================== */
+    @media screen {
+      #pdf-render-area {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -142,8 +144,8 @@
   </div>
 
 
-  <div class="pdf-hidden-wrapper">
-    <div id="rapor-fisik-pdf-template" style="width: 159.2mm; background: #ffffff; font-family: 'Times New Roman', Times, serif; color: #000000; line-height: 1.4; font-size: 11pt; box-sizing: border-box;">
+  <div id="pdf-render-area">
+    <div id="rapor-fisik-pdf-template" style="width: 159.2mm; background: #ffffff; font-family: 'Times New Roman', Times, serif; color: #000000; line-height: 1.5; font-size: 11pt; box-sizing: border-box;">
         
         <div style="border-bottom: 3px solid #000000; padding-bottom: 5px; margin-bottom: 20px; position: relative; text-align: center;">
             <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Coat_of_arms_of_Riau_Islands.svg" style="position: absolute; left: 0px; top: 0px; width: 55px; height: auto;">
@@ -203,21 +205,21 @@
             </thead>
             <tbody>
                 <tr style="text-transform: uppercase; font-size: 9.5pt; height: 30px;">
-                    <td id="pdf-kaca-awal" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-kaca-akhir" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-kepala-awal" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-kepala-akhir" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-tinggi-awal" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-tinggi-akhir" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-berat-awal" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
-                    <td id="pdf-berat-akhir" style="border: 1px solid #000; text-align: center; padding: 6px;">-</td>
+                    <td id="pdf-kaca-awal" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-kaca-akhir" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-kepala-awal" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-kepala-akhir" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-tinggi-awal" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-tinggi-akhir" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-berat-awal" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
+                    <td id="pdf-berat-akhir" style="border: 1px solid #000; text-align: center; padding: 4px;">-</td>
                 </tr>
             </tbody>
         </table>
 
-        <div style="border: 1px solid #000000; width: 100%; padding: 12px; margin-bottom: 25px; box-sizing: border-box;">
-            <div style="font-size: 9.5pt; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">Catatan Wali Kelas :</div>
-            <div id="pdf-catatan" style="text-align: center; font-size: 10.5pt; line-height: 1.4; padding: 5px 10px;">
+        <div style="border: 1px solid #000000; width: 100%; padding: 12px; margin-bottom: 20px; box-sizing: border-box;">
+            <div style="font-size: 9.5pt; font-weight: bold; text-transform: uppercase; margin-bottom: 8px;">Catatan Wali Kelas :</div>
+            <div id="pdf-catatan" style="text-align: center; font-size: 10.5pt; line-height: 1.5; padding: 5px 10px;">
                 </div>
         </div>
 
@@ -230,7 +232,7 @@
                       <div style="height: 55px;"></div>
                       __________________________
                   </td>
-                  <td style="width: 50%; vertical-align: top; padding-left: 10%;">
+                  <td style="width: 50%; vertical-align: top; padding-left: 5%;">
                       Batam, <span id="pdf-tanggal-cetak">-</span><br>
                       Wali Kelas,
                       <div style="height: 55px;"></div>
@@ -365,7 +367,7 @@
         });
     }
 
-    // FUNGSI UTAMA GENERATOR DENGAN MARGIN NORMAL 2.54 CM
+    // FUNGSI FIX UTAMA: VALIDASI PENUH MARGIN 2.54 CM TANPA MISSING CONTENT
     function prosesDanCetakPDF() {
       const namaSiswa = document.getElementById('txtNama').innerText || '-';
       const nisnSiswa = document.getElementById('txtNisn').innerText || '-';
@@ -385,7 +387,7 @@
           return;
       }
 
-      // Sinkronisasi data ke template
+      // Memasukkan data ke element template cetak
       document.getElementById('pdf-nama').innerText = namaSiswa;
       document.getElementById('pdf-nisn').innerText = nisnSiswa;
       document.getElementById('pdf-kelas').innerText = kelasSiswa;
@@ -414,29 +416,30 @@
       
       document.getElementById('pdf-catatan').innerHTML = kalimatCatatan;
 
-      // Set tanggal dinamis
+      // Mengisi tanggal dinamis cetak rapor
       const listBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
       const tgl = new Date();
       document.getElementById('pdf-tanggal-cetak').innerText = `${tgl.getDate()} ${listBulan[tgl.getMonth()]} ${tgl.getFullYear()}`;
 
-      // Konfigurasi Penuh dengan Aturan Margin 2.54 cm (25.4 mm) di semua sisi
+      // Konfigurasi Mutlak Batas Margin Keliling 2.54 cm (25.4 mm)
       const cetakArea = document.getElementById('rapor-fisik-pdf-template');
       const konfigurasi = {
-          margin:       [25.4, 25.4, 25.4, 25.4], // Aturan mutlak top, left, bottom, right = 2.54cm
+          margin:       [25.4, 25.4, 25.4, 25.4], // Top, Left, Bottom, Right = 2.54cm
           filename:     `Catatan_Fisik_${namaSiswa.trim().replace(/\s+/g, '_')}.pdf`,
           image:        { type: 'jpeg', quality: 1.0 },
-          html2canvas:  { scale: 3, useCORS: true, logging: false },
+          html2canvas:  { scale: 3, useCORS: true, logging: false }, // Skala tinggi agar hasil tulisan tajam
           jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-          pagebreak:    { mode: ['avoid-all'] }
+          pagebreak:    { mode: ['avoid-all'] } // Mencegah teks terpotong ke halaman baru secara paksa
       };
 
-      // Jalankan Ekspor PDF
+      // Jalankan Ekspor PDF secara bersih
       html2pdf().set(konfigurasi).from(cetakArea).save().catch(err => {
-          alert("Terjadi kesalahan saat membuat PDF.");
+          alert("Terjadi kesalahan saat memproses PDF.");
           console.error(err);
       });
     }
 
+    // Fungsi kembali ke halaman login
     function keluar() {
       document.getElementById('pageForm').classList.remove('active-page');
       document.getElementById('pageLogin').classList.add('active-page');
