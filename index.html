@@ -63,14 +63,14 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester</label>
-              <select id="kacamataAwal" class="form-select" required>
+              <select id="kacamataAwal" class="form-select" onchange="simpanDraft()" required>
                 <option value="TIDAK">TIDAK</option>
                 <option value="YA">YA</option>
               </select>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester</label>
-              <select id="kacamataAkhir" class="form-select" required>
+              <select id="kacamataAkhir" class="form-select" onchange="simpanDraft()" required>
                 <option value="TIDAK">TIDAK</option>
                 <option value="YA">YA</option>
               </select>
@@ -81,11 +81,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 12" required>
+              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 12" required>
+              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -93,11 +93,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" required>
+              <input type="number" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" id="tinggiAkhir" class="form-control" placeholder="Contoh: 165" required>
+              <input type="number" id="tinggiAkhir" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -105,11 +105,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (KG)</label>
-              <input type="number" id="beratAwal" class="form-control" placeholder="Contoh: 70" required>
+              <input type="number" id="beratAwal" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (KG)</label>
-              <input type="number" id="beratAkhir" class="form-control" placeholder="Contoh: 70" required>
+              <input type="number" id="beratAkhir" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -155,15 +155,31 @@
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
 
-            // Masukkan data lama jika data di spreadsheet sudah pernah diisi sebelumnya
-            document.getElementById('kacamataAwal').value = response.kacamataAwal || "TIDAK";
-            document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "TIDAK";
-            document.getElementById('kepalaAwal').value = response.kepalaAwal || "";
-            document.getElementById('kepalaAkhir').value = response.kepalaAkhir || "";
-            document.getElementById('tinggiAwal').value = response.tinggiAwal || "";
-            document.getElementById('tinggiAkhir').value = response.tinggiAkhir || "";
-            document.getElementById('beratAwal').value = response.beratAwal || "";
-            document.getElementById('beratAkhir').value = response.beratAkhir || "";
+            // FITUR SESSION STORAGE: Cek apakah ada draft ketikan lama di browser
+            const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
+            
+            if (draft) {
+              // Jika ada draft karena tidak sengaja ter-refresh, pakai data draft browser
+              const dataDraft = JSON.parse(draft);
+              document.getElementById('kacamataAwal').value = dataDraft.kAwal;
+              document.getElementById('kacamataAkhir').value = dataDraft.kAkhir;
+              document.getElementById('kepalaAwal').value = dataDraft.kpAwal;
+              document.getElementById('kepalaAkhir').value = dataDraft.kpAkhir;
+              document.getElementById('tinggiAwal').value = dataDraft.tAwal;
+              document.getElementById('tinggiAkhir').value = dataDraft.tAkhir;
+              document.getElementById('beratAwal').value = dataDraft.bAwal;
+              document.getElementById('beratAkhir').value = dataDraft.bAkhir;
+            } else {
+              // Jika tidak ada draft, ambil data default asli dari Google Sheets
+              document.getElementById('kacamataAwal').value = response.kacamataAwal || "TIDAK";
+              document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "TIDAK";
+              document.getElementById('kepalaAwal').value = response.kepalaAwal || "";
+              document.getElementById('kepalaAkhir').value = response.kepalaAkhir || "";
+              document.getElementById('tinggiAwal').value = response.tinggiAwal || "";
+              document.getElementById('tinggiAkhir').value = response.tinggiAkhir || "";
+              document.getElementById('beratAwal').value = response.beratAwal || "";
+              document.getElementById('beratAkhir').value = response.beratAkhir || "";
+            }
 
             // Pindah halaman ke Formulir Input
             document.getElementById('pageLogin').classList.remove('active-page');
@@ -180,6 +196,25 @@
         });
     }
 
+    // FUNGSI BARU: Otomatis menyimpan setiap ketikan ke memori sementara browser
+    function simpanDraft() {
+      const nisn = document.getElementById('txtNisn').innerText;
+      if (!nisn) return;
+
+      const dataDraft = {
+        kAwal: document.getElementById('kacamataAwal').value,
+        kAkhir: document.getElementById('kacamataAkhir').value,
+        kpAwal: document.getElementById('kepalaAwal').value,
+        kpAkhir: document.getElementById('kepalaAkhir').value,
+        tAwal: document.getElementById('tinggiAwal').value,
+        tAkhir: document.getElementById('tinggiAkhir').value,
+        bAwal: document.getElementById('beratAwal').value,
+        bAkhir: document.getElementById('beratAkhir').value
+      };
+
+      sessionStorage.setItem("draft_fisik_" + nisn, JSON.stringify(dataDraft));
+    }
+
     function prosesSimpan(event) {
       event.preventDefault();
 
@@ -187,6 +222,7 @@
       document.getElementById('btnSimpan').disabled = true;
 
       const baris = document.getElementById('siswaBaris').value;
+      const nisn = document.getElementById('txtNisn').innerText;
       const kAwal = document.getElementById('kacamataAwal').value;
       const kAkhir = document.getElementById('kacamataAkhir').value;
       const kpAwal = document.getElementById('kepalaAwal').value;
@@ -196,7 +232,6 @@
       const bAwal = document.getElementById('beratAwal').value;
       const bAkhir = document.getElementById('beratAkhir').value;
 
-      // Menyusun parameter query string untuk dikirim ke API simpan
       const urlSimpan = `${API_URL}?aksi=simpan&baris=${baris}&kacamataAwal=${kAwal}&kacamataAkhir=${kAkhir}&kepalaAwal=${kpAwal}&kepalaAkhir=${kpAkhir}&tinggiAwal=${tAwal}&tinggiAkhir=${tAkhir}&beratAwal=${bAwal}&beratAkhir=${bAkhir}`;
 
       fetch(urlSimpan, { method: 'POST' })
@@ -207,7 +242,9 @@
 
           if (response.sukses) {
             alert(response.pesan);
-            keluar(); // Otomatis logout kembali ke halaman awal login setelah sukses
+            // Hapus draft di memori browser karena data sudah resmi masuk ke Google Sheets
+            sessionStorage.removeItem("draft_fisik_" + nisn);
+            keluar();
           } else {
             alert("Gagal Menyimpan: " + response.pesan);
           }
