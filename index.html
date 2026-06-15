@@ -3,130 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Pendataan & Cetak Perkembangan Fisik Siswa</title>
+  <title>Form Pendataan Perkembangan Fisik Siswa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* ==========================================================================
-       1. CSS UNTUK TAMPILAN LAYAR (APLIKASI WEB FORM)
-       ========================================================================== */
     body { background-color: #f1f5f9; font-family: 'Segoe UI', Arial, sans-serif; }
     .main-container { padding-top: 50px; padding-bottom: 60px; }
     .card-custom { max-width: 700px; margin: 0 auto; background: #ffffff; border-radius: 20px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 35px !important; }
     .header-logo { max-height: 70px; display: block; margin: 0 auto 15px; }
     .btn-custom { background-color: #2563eb; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; }
     .btn-custom:hover { background-color: #1d4ed8; }
-    .btn-success-custom { background-color: #10b981; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; }
-    .btn-success-custom:hover { background-color: #059669; }
     .section-title { font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; font-size: 1rem; }
     .page { display: none; }
     .active-page { display: block; }
-
-    /* ==========================================================================
-       2. CSS KHUSUS UNTUK HALAMAN CETAK (PRINT LAYOUT)
-       ========================================================================== */
-    #print-area {
-        display: none;
-    }
-
-    @media print {
-        /* Sembunyikan elemen aplikasi web di layar saat print */
-        body *, .main-container, .card-custom, form, button, .alert {
-            display: none !important;
-        }
-        
-        /* Tampilkan kontainer cetak secara penuh */
-        #print-area {
-            display: block !important;
-            font-family: 'Arial', sans-serif;
-            font-size: 11pt;
-            line-height: 1.4;
-            color: #000;
-            background: #fff;
-            padding: 0;
-            margin: 0;
-        }
-
-        .print-page {
-            box-sizing: border-box;
-            padding: 10mm;
-        }
-
-        .kop-surat {
-            text-align: center;
-            border-bottom: 3px double #000;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-        .kop-surat h1 { font-size: 13pt; margin: 0; font-weight: bold; text-align: center; }
-        .kop-surat h2 { font-size: 15pt; margin: 0; font-weight: bold; text-align: center; }
-        .kop-surat p { font-size: 8.5pt; margin: 3px 0 0 0; font-style: italic; text-align: center; }
-
-        .judul-dokumen {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .judul-dokumen h3 { font-size: 12pt; margin: 0 0 3px 0; font-weight: bold; text-decoration: underline; }
-        .judul-dokumen h4 { font-size: 11pt; margin: 0; font-weight: bold; }
-
-        table.table-identitas {
-            width: 100%;
-            margin-bottom: 15px;
-            border-collapse: collapse;
-        }
-        table.table-identitas td {
-            padding: 4px 0;
-            vertical-align: top;
-            border: none !important;
-        }
-        table.table-identitas td.label { width: 18%; font-weight: bold; text-align: left; }
-        table.table-identitas td.colon { width: 3%; text-align: center; }
-        table.table-identitas td.value { width: 79%; text-align: left; }
-
-        table.table-data-fisik {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table.table-data-fisik th, table.table-data-fisik td {
-            border: 1px solid #000 !important;
-            padding: 8px 4px;
-            text-align: center;
-            font-size: 10pt;
-        }
-        table.table-data-fisik th {
-            font-weight: bold;
-            background-color: #f2f2f2 !important;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-        }
-
-        table.table-catatan {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 35px;
-        }
-        table.table-catatan td {
-            border: 1px solid #000 !important;
-            padding: 12px;
-            text-align: left;
-            font-style: italic;
-            min-height: 60px;
-        }
-
-        table.table-ttd {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table.table-ttd td {
-            width: 50%;
-            text-align: center;
-            border: none !important;
-            vertical-align: top;
-        }
-        .space-ttd {
-            height: 75px;
-        }
-    }
   </style>
 </head>
 <body>
@@ -135,7 +23,7 @@
     
     <div id="pageLogin" class="page active-page mt-5">
       <div class="card card-custom" style="max-width: 480px;">
-        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" class="header-logo" alt="Logo Sekolah">
+        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" class="header-logo" alt="Logo Sekolah">
         <h4 class="text-center fw-bold mb-1" style="color: #1e3a8a;">Form Pendataan Fisik</h4>
         <p class="text-muted text-center small mb-4">Silakan masukkan NISN Anda untuk mengisi data</p>
         
@@ -156,7 +44,6 @@
     <div id="pageForm" class="page">
       <div class="card card-custom">
         <div class="text-center mb-4">
-          <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" style="max-height: 50px; margin-bottom: 10px;" alt="Logo Sekolah">
           <h4 class="fw-bold mb-0" style="color: #1e3a8a;">INPUT PERKEMBANGAN FISIK SISWA</h4>
           <p class="text-muted small">SMK NEGERI 1 BATAM | TA 2025/2026</p>
         </div>
@@ -171,7 +58,6 @@
 
         <form id="formFisik" onsubmit="prosesSimpan(event)">
           <input type="hidden" id="siswaBaris">
-          <input type="hidden" id="catatanWalasSembunyi">
 
           <div class="section-title">1. INDIKATOR BERKACAMATA (YA / TIDAK)</div>
           <div class="row g-3">
@@ -195,11 +81,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" step="any" id="kepalaAwal" class="form-control" placeholder="Contoh: 52" oninput="simpanDraft()" required>
+              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" step="any" id="kepalaAkhir" class="form-control" placeholder="Contoh: 53" oninput="simpanDraft()" required>
+              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -207,11 +93,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" step="any" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
+              <input type="number" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" step="any" id="tinggiAkhir" class="form-control" placeholder="Contoh: 167" oninput="simpanDraft()" required>
+              <input type="number" id="tinggiAkhir" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -219,4 +105,164 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (KG)</label>
-              <input type="number" step="any" id="beratAwal" class="form-control" placeholder="Contoh: 60"
+              <input type="number" id="beratAwal" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold text-muted small">Akhir Semester (KG)</label>
+              <input type="number" id="beratAkhir" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
+            </div>
+          </div>
+
+          <div class="mt-5 d-flex gap-3">
+            <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
+            <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
+          </div>
+          
+          <div id="loadingSimpan" class="text-center mt-3" style="display:none;">
+            <div class="spinner-border text-success spinner-border-sm" role="status"></div>
+            <span class="text-muted small ms-2">Sedang mengirim data ke Google Sheets...</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ⚠️ GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT KAMU YANG ASLI
+    const API_URL = "https://script.google.com/macros/s/AKfycbyei8K12Vqln8DteXQpHer8uatZqWUtlNa27OxyB_4_QjOoHbYf0ngzlHrEBsG0KUpBHA/exec";
+
+    function prosesLogin() {
+      const nisnValue = document.getElementById('nisnInput').value.trim();
+      if (!nisnValue) {
+        alert("Silakan masukkan NISN Anda!");
+        return;
+      }
+
+      document.getElementById('loadingLogin').style.display = 'block';
+      document.getElementById('btnLogin').disabled = true;
+
+      fetch(`${API_URL}?aksi=login&nisn=${nisnValue}`)
+        .then(res => res.json())
+        .then(response => {
+          document.getElementById('loadingLogin').style.display = 'none';
+          document.getElementById('btnLogin').disabled = false;
+
+          if (response.sukses) {
+            // Set data teks identitas atas
+            document.getElementById('txtNama').innerText = response.nama;
+            document.getElementById('txtNisn').innerText = response.nisn;
+            document.getElementById('txtKelas').innerText = response.kelas;
+            document.getElementById('siswaBaris').value = response.baris;
+
+            // FITUR SESSION STORAGE: Cek apakah ada draft ketikan lama di browser
+            const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
+            
+            if (draft) {
+              // Jika ada draft karena tidak sengaja ter-refresh, pakai data draft browser
+              const dataDraft = JSON.parse(draft);
+              document.getElementById('kacamataAwal').value = dataDraft.kAwal;
+              document.getElementById('kacamataAkhir').value = dataDraft.kAkhir;
+              document.getElementById('kepalaAwal').value = dataDraft.kpAwal;
+              document.getElementById('kepalaAkhir').value = dataDraft.kpAkhir;
+              document.getElementById('tinggiAwal').value = dataDraft.tAwal;
+              document.getElementById('tinggiAkhir').value = dataDraft.tAkhir;
+              document.getElementById('beratAwal').value = dataDraft.bAwal;
+              document.getElementById('beratAkhir').value = dataDraft.bAkhir;
+            } else {
+              // Jika tidak ada draft, ambil data default asli dari Google Sheets
+              document.getElementById('kacamataAwal').value = response.kacamataAwal || "TIDAK";
+              document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "TIDAK";
+              document.getElementById('kepalaAwal').value = response.kepalaAwal || "";
+              document.getElementById('kepalaAkhir').value = response.kepalaAkhir || "";
+              document.getElementById('tinggiAwal').value = response.tinggiAwal || "";
+              document.getElementById('tinggiAkhir').value = response.tinggiAkhir || "";
+              document.getElementById('beratAwal').value = response.beratAwal || "";
+              document.getElementById('beratAkhir').value = response.beratAkhir || "";
+            }
+
+            // Pindah halaman ke Formulir Input
+            document.getElementById('pageLogin').classList.remove('active-page');
+            document.getElementById('pageForm').classList.add('active-page');
+          } else {
+            alert(response.pesan);
+          }
+        })
+        .catch(err => {
+          document.getElementById('loadingLogin').style.display = 'none';
+          document.getElementById('btnLogin').disabled = false;
+          alert("Gagal terhubung ke database. Pastikan deployment Apps Script Anda disetel ke 'Anyone'.");
+          console.error(err);
+        });
+    }
+
+    // FUNGSI BARU: Otomatis menyimpan setiap ketikan ke memori sementara browser
+    function simpanDraft() {
+      const nisn = document.getElementById('txtNisn').innerText;
+      if (!nisn) return;
+
+      const dataDraft = {
+        kAwal: document.getElementById('kacamataAwal').value,
+        kAkhir: document.getElementById('kacamataAkhir').value,
+        kpAwal: document.getElementById('kepalaAwal').value,
+        kpAkhir: document.getElementById('kepalaAkhir').value,
+        tAwal: document.getElementById('tinggiAwal').value,
+        tAkhir: document.getElementById('tinggiAkhir').value,
+        bAwal: document.getElementById('beratAwal').value,
+        bAkhir: document.getElementById('beratAkhir').value
+      };
+
+      sessionStorage.setItem("draft_fisik_" + nisn, JSON.stringify(dataDraft));
+    }
+
+    function prosesSimpan(event) {
+      event.preventDefault();
+
+      document.getElementById('loadingSimpan').style.display = 'block';
+      document.getElementById('btnSimpan').disabled = true;
+
+      const baris = document.getElementById('siswaBaris').value;
+      const nisn = document.getElementById('txtNisn').innerText;
+      const kAwal = document.getElementById('kacamataAwal').value;
+      const kAkhir = document.getElementById('kacamataAkhir').value;
+      const kpAwal = document.getElementById('kepalaAwal').value;
+      const kpAkhir = document.getElementById('kepalaAkhir').value;
+      const tAwal = document.getElementById('tinggiAwal').value;
+      const tAkhir = document.getElementById('tinggiAkhir').value;
+      const bAwal = document.getElementById('beratAwal').value;
+      const bAkhir = document.getElementById('beratAkhir').value;
+
+      const urlSimpan = `${API_URL}?aksi=simpan&baris=${baris}&kacamataAwal=${kAwal}&kacamataAkhir=${kAkhir}&kepalaAwal=${kpAwal}&kepalaAkhir=${kpAkhir}&tinggiAwal=${tAwal}&tinggiAkhir=${tAkhir}&beratAwal=${bAwal}&beratAkhir=${bAkhir}`;
+
+      fetch(urlSimpan, { method: 'POST' })
+        .then(res => res.json())
+        .then(response => {
+          document.getElementById('loadingSimpan').style.display = 'none';
+          document.getElementById('btnSimpan').disabled = false;
+
+          if (response.sukses) {
+            alert(response.pesan);
+            // Hapus draft di memori browser karena data sudah resmi masuk ke Google Sheets
+            sessionStorage.removeItem("draft_fisik_" + nisn);
+            keluar();
+          } else {
+            alert("Gagal Menyimpan: " + response.pesan);
+          }
+        })
+        .catch(err => {
+          document.getElementById('loadingSimpan').style.display = 'none';
+          document.getElementById('btnSimpan').disabled = false;
+          alert("Terjadi kesalahan sistem saat mencoba menyimpan.");
+          console.error(err);
+        });
+    }
+
+    function keluar() {
+      document.getElementById('pageForm').classList.remove('active-page');
+      document.getElementById('pageLogin').classList.add('active-page');
+      document.getElementById('nisnInput').value = "";
+      document.getElementById('formFisik').reset();
+    }
+  </script>
+</body>
+</html>
