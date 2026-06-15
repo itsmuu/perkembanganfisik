@@ -12,6 +12,8 @@
     .header-logo { max-height: 70px; display: block; margin: 0 auto 15px; }
     .btn-custom { background-color: #2563eb; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; }
     .btn-custom:hover { background-color: #1d4ed8; }
+    .btn-laporan { background-color: #059669; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; }
+    .btn-laporan:hover { background-color: #047857; }
     .section-title { font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; font-size: 1rem; }
     .page { display: none; }
     .active-page { display: block; }
@@ -202,6 +204,7 @@
 
           <div class="mt-5 d-flex gap-3">
             <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
+            <button type="button" onclick="bukaLaporan()" class="btn btn-laporan flex-grow-1">📄 Lihat Laporan</button>
             <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
           </div>
           
@@ -331,6 +334,37 @@
       };
 
       sessionStorage.setItem("draft_fisik_" + nisn, JSON.stringify(dataDraft));
+    }
+
+    // Fungsi untuk membuka halaman laporan
+    function bukaLaporan() {
+      const nama = document.getElementById('txtNama').innerText;
+      const nisn = document.getElementById('txtNisn').innerText;
+      const kelas = document.getElementById('txtKelas').innerText;
+      const kacamataAwal = document.getElementById('kacamataAwal').value;
+      const kacamataAkhir = document.getElementById('kacamataAkhir').value;
+      const kepalaAwal = document.getElementById('kepalaAwal').value;
+      const kepalaAkhir = document.getElementById('kepalaAkhir').value;
+      const tinggiAwal = document.getElementById('tinggiAwal').value;
+      const tinggiAkhir = document.getElementById('tinggiAkhir').value;
+      const beratAwal = document.getElementById('beratAwal').value;
+      const beratAkhir = document.getElementById('beratAkhir').value;
+      
+      const params = new URLSearchParams({
+        nama: nama,
+        nisn: nisn,
+        kelas: kelas,
+        kacamataAwal: kacamataAwal,
+        kacamataAkhir: kacamataAkhir,
+        kepalaAwal: kepalaAwal,
+        kepalaAkhir: kepalaAkhir,
+        tinggiAwal: tinggiAwal,
+        tinggiAkhir: tinggiAkhir,
+        beratAwal: beratAwal,
+        beratAkhir: beratAkhir
+      });
+      
+      window.open('laporan.html?' + params.toString(), '_blank');
     }
 
     function prosesSimpan(event) {
