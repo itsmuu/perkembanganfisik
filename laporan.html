@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Perkembangan Fisik Siswa</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 21cm;
+      height: 29.7cm;
+      background: white;
+      margin: 0 auto;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #000;
+      padding-bottom: 15px;
+    }
+    
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .logo {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .header-text h2 {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 3px 0;
+      color: #000;
+    }
+    
+    .header-text h3 {
+      font-size: 12px;
+      font-weight: normal;
+      margin: 2px 0;
+      color: #333;
+    }
+    
+    .header-text p {
+      font-size: 11px;
+      margin: 2px 0;
+      color: #555;
+    }
+    
+    .title-section {
+      text-align: center;
+      margin: 15px 0;
+    }
+    
+    .title-section h3 {
+      font-size: 13px;
+      font-weight: bold;
+      margin: 3px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .title-section p {
+      font-size: 11px;
+      color: #666;
+      margin: 2px 0;
+    }
+    
+    /* Data Siswa */
+    .student-info {
+      margin: 15px 0;
+      font-size: 11px;
+    }
+    
+    .student-info table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .student-info td {
+      padding: 4px 8px;
+      border: 1px solid #000;
+    }
+    
+    .label {
+      width: 150px;
+      font-weight: bold;
+      background-color: #f0f0f0;
+    }
+    
+    .value {
+      flex: 1;
+    }
+    
+    /* Tabel Data */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 10px;
+    }
+    
+    .data-table th {
+      background-color: #000;
+      color: white;
+      padding: 6px;
+      text-align: center;
+      border: 1px solid #000;
+      font-weight: bold;
+    }
+    
+    .data-table td {
+      padding: 6px;
+      text-align: center;
+      border: 1px solid #000;
+    }
+    
+    .data-table .label-col {
+      text-align: left;
+      font-weight: bold;
+      background-color: #f0f0f0;
+    }
+    
+    /* Catatan */
+    .note-section {
+      margin: 15px 0;
+      font-size: 10px;
+      text-align: center;
+      border: 1px solid #000;
+      padding: 10px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .note-section p {
+      line-height: 1.4;
+    }
+    
+    /* Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      font-size: 10px;
+    }
+    
+    .signature {
+      width: 45%;
+      text-align: center;
+    }
+    
+    .signature-line {
+      margin-top: 50px;
+      border-top: 1px solid #000;
+      padding-top: 5px;
+    }
+    
+    .signature-name {
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    
+    .signature-nip {
+      font-size: 9px;
+      color: #666;
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        padding: 0;
+        background: white;
+      }
+      
+      .container {
+        box-shadow: none;
+        max-width: 100%;
+        height: auto;
+        page-break-after: always;
+      }
+      
+      .no-print {
+        display: none;
+      }
+    }
+    
+    .no-print {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    
+    .btn:hover {
+      background-color: #1d4ed8;
+    }
+    
+    .btn-secondary {
+      background-color: #6b7280;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #4b5563;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="no-print">
+    <button class="btn" onclick="window.print()">🖨️ Cetak Laporan</button>
+    <button class="btn btn-secondary" onclick="goBack()">← Kembali</button>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" alt="Logo" class="logo">
+        <div class="header-text" style="flex: 1; margin: 0 20px;">
+          <h2>PEMERINTAH PROVINSI KEPULAUAN RIAU</h2>
+          <h2>DINAS PENDIDIKAN</h2>
+          <h2>SMK NEGERI 1 BATAM</h2>
+          <h3>Jl. Prof Hamka No. 1 Kding, Kec. Batu Aji, Kota Batam</h3>
+          <h3>Kode Pos 29422 Telepon (0778) 303605</h3>
+          <p>E-mail : smkn1batam@batam.sch.id | Website : www.smkn1batam.sch.id</p>
+        </div>
+        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" alt="Logo 2" class="logo">
+      </div>
+    </div>
+
+    <!-- Judul Laporan -->
+    <div class="title-section">
+      <h3>CATATAN INDIVIDU PERKEMBANGAN FISIK SISWA</h3>
+      <h3>SEMESTER GANJIL</h3>
+      <p>TAHUN PELAJARAN 2025 / 2026</p>
+    </div>
+
+    <!-- Data Siswa -->
+    <div class="student-info">
+      <table>
+        <tr>
+          <td class="label">NAMA</td>
+          <td class="value">: <span id="nama">AHMAD FAKRI</span></td>
+        </tr>
+        <tr>
+          <td class="label">NIS / NISN</td>
+          <td class="value">: <span id="nisn">2513737008555353</span></td>
+        </tr>
+        <tr>
+          <td class="label">KELAS</td>
+          <td class="value">: <span id="kelas">X TEKNIK KOMPUTER JARINGAN 1</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Tabel Data Fisik -->
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">BERKACAMATA (YA/TIDAK)</th>
+          <th style="width: 25%;">LINGKAR KEPALA (CM)</th>
+          <th style="width: 25%;">TINGGI BADAN (CM)</th>
+          <th style="width: 25%;">BERAT BADAN (KG)</th>
+        </tr>
+        <tr>
+          <th colspan="4" style="background-color: #fff; border: 1px solid #000;">AWAL SEMESTER / AKHIR SEMESTER</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="kacamata">TIDAK / TIDAK</td>
+          <td id="kepala">57 / 57</td>
+          <td id="tinggi">165 / 165</td>
+          <td id="berat">70 / 70</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Catatan -->
+    <div class="note-section" id="noteSection">
+      <p>
+        <strong>Catatan :</strong> Data perkembangan fisik siswa telah tercatat dengan baik.<br>
+        Siswa diharapkan menjaga kesehatan dan perkembangan fisik mereka dengan baik.
+      </p>
+    </div>
+
+    <!-- Footer/Signature -->
+    <div class="footer">
+      <div class="signature">
+        <p style="margin-bottom: 5px;">Mengetahui</p>
+        <p style="margin-bottom: 5px;">Orangtua/Wali Murid</p>
+        <div class="signature-line"></div>
+        <div class="signature-name" id="parentName">( .................................. )</div>
+      </div>
+      <div class="signature">
+        <p style="margin-bottom: 5px;">Batam, <span id="tanggal">19 Desember 2025</span></p>
+        <p style="margin-bottom: 5px;">Wali Kelas</p>
+        <div class="signature-line"></div>
+        <div class="signature-name">Mudhiyono, S.Kom.</div>
+        <div class="signature-nip">NIPPK : 19950880620521103</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi untuk mengambil data dari URL parameters atau localStorage
+    function loadLaporanData() {
+      const params = new URLSearchParams(window.location.search);
+      
+      // Ambil data dari URL atau gunakan default
+      const data = {
+        nama: params.get('nama') || localStorage.getItem('laporan_nama') || 'AHMAD FAKRI',
+        nisn: params.get('nisn') || localStorage.getItem('laporan_nisn') || '2513737008555353',
+        kelas: params.get('kelas') || localStorage.getItem('laporan_kelas') || 'X TEKNIK KOMPUTER JARINGAN 1',
+        kacamataAwal: params.get('kacamataAwal') || localStorage.getItem('laporan_kacamataAwal') || 'TIDAK',
+        kacamataAkhir: params.get('kacamataAkhir') || localStorage.getItem('laporan_kacamataAkhir') || 'TIDAK',
+        kepalaAwal: params.get('kepalaAwal') || localStorage.getItem('laporan_kepalaAwal') || '57',
+        kepalaAkhir: params.get('kepalaAkhir') || localStorage.getItem('laporan_kepalaAkhir') || '57',
+        tinggiAwal: params.get('tinggiAwal') || localStorage.getItem('laporan_tinggiAwal') || '165',
+        tinggiAkhir: params.get('tinggiAkhir') || localStorage.getItem('laporan_tinggiAkhir') || '165',
+        beratAwal: params.get('beratAwal') || localStorage.getItem('laporan_beratAwal') || '70',
+        beratAkhir: params.get('beratAkhir') || localStorage.getItem('laporan_beratAkhir') || '70'
+      };
+      
+      // Set ke HTML
+      document.getElementById('nama').innerText = data.nama;
+      document.getElementById('nisn').innerText = data.nisn;
+      document.getElementById('kelas').innerText = data.kelas;
+      document.getElementById('kacamata').innerText = `${data.kacamataAwal} / ${data.kacamataAkhir}`;
+      document.getElementById('kepala').innerText = `${data.kepalaAwal} / ${data.kepalaAkhir}`;
+      document.getElementById('tinggi').innerText = `${data.tinggiAwal} / ${data.tinggiAkhir}`;
+      document.getElementById('berat').innerText = `${data.beratAwal} / ${data.beratAkhir}`;
+      
+      // Set tanggal hari ini
+      const hari = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const tanggal = hari.toLocaleDateString('id-ID', options);
+      document.getElementById('tanggal').innerText = tanggal;
+    }
+    
+    function goBack() {
+      window.history.back();
+    }
+    
+    // Load data saat halaman siap
+    window.addEventListener('load', loadLaporanData);
+  </script>
+</body>
+</html>
