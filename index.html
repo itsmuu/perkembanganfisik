@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Form Pendataan Perkembangan Fisik Siswa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     body { background-color: #f1f5f9; font-family: 'Segoe UI', Arial, sans-serif; }
     .main-container { padding-top: 50px; padding-bottom: 60px; }
@@ -15,6 +16,50 @@
     .section-title { font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; font-size: 1rem; }
     .page { display: none; }
     .active-page { display: block; }
+    
+    /* Modal Styling */
+    .modal-header {
+      border-bottom: 2px solid #e2e8f0;
+      padding: 1.5rem;
+    }
+    .modal-title {
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+    .modal-body {
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .modal-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .modal-icon.success { color: #10b981; }
+    .modal-icon.error { color: #ef4444; }
+    .modal-icon.warning { color: #f59e0b; }
+    .modal-icon.info { color: #3b82f6; }
+    .modal-footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 1rem 1.5rem;
+    }
+    .btn-modal-primary {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+    }
+    .btn-modal-primary:hover {
+      background-color: #1d4ed8;
+      color: white;
+    }
+    .message-text {
+      font-size: 1rem;
+      color: #374151;
+      margin: 0.5rem 0;
+    }
   </style>
 </head>
 <body>
@@ -81,11 +126,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
+              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 57" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
+              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 57" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -128,14 +173,76 @@
 
   </div>
 
+  <!-- Modal Notifikasi -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Notifikasi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <i class="fas fa-info-circle modal-icon info" id="modalIcon"></i>
+          <p class="message-text" id="modalMessage">Pesan akan ditampilkan di sini</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-modal-primary" data-bs-dismiss="modal" id="modalButton">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // ⚠️ GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT KAMU YANG ASLI
     const API_URL = "https://script.google.com/macros/s/AKfycbyei8K12Vqln8DteXQpHer8uatZqWUtlNa27OxyB_4_QjOoHbYf0ngzlHrEBsG0KUpBHA/exec";
 
+    // Fungsi untuk menampilkan modal notifikasi
+    function showNotification(title, message, type = 'info', callback = null) {
+      const modal = document.getElementById('notificationModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalMessage = document.getElementById('modalMessage');
+      const modalIcon = document.getElementById('modalIcon');
+      const modalButton = document.getElementById('modalButton');
+      const modalContent = modal.querySelector('.modal-content');
+
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+
+      // Atur warna ikon berdasarkan tipe
+      modalIcon.className = 'fas modal-icon';
+      switch(type) {
+        case 'success':
+          modalIcon.classList.add('fa-check-circle', 'success');
+          modalContent.style.borderTop = '4px solid #10b981';
+          break;
+        case 'error':
+          modalIcon.classList.add('fa-exclamation-circle', 'error');
+          modalContent.style.borderTop = '4px solid #ef4444';
+          break;
+        case 'warning':
+          modalIcon.classList.add('fa-exclamation-triangle', 'warning');
+          modalContent.style.borderTop = '4px solid #f59e0b';
+          break;
+        default:
+          modalIcon.classList.add('fa-info-circle', 'info');
+          modalContent.style.borderTop = '4px solid #3b82f6';
+      }
+
+      // Jika ada callback, panggil setelah modal ditutup
+      if (callback) {
+        const bsModal = new bootstrap.Modal(modal);
+        modal.addEventListener('hidden.bs.modal', callback, { once: true });
+        bsModal.show();
+      } else {
+        new bootstrap.Modal(modal).show();
+      }
+    }
+
     function prosesLogin() {
       const nisnValue = document.getElementById('nisnInput').value.trim();
       if (!nisnValue) {
-        alert("Silakan masukkan NISN Anda!");
+        showNotification('Perhatian', 'Silakan masukkan NISN Anda terlebih dahulu', 'warning');
         return;
       }
 
@@ -185,13 +292,13 @@
             document.getElementById('pageLogin').classList.remove('active-page');
             document.getElementById('pageForm').classList.add('active-page');
           } else {
-            alert(response.pesan);
+            showNotification('Login Gagal', response.pesan || 'NISN tidak ditemukan dalam database', 'error');
           }
         })
         .catch(err => {
           document.getElementById('loadingLogin').style.display = 'none';
           document.getElementById('btnLogin').disabled = false;
-          alert("Gagal terhubung ke database. Pastikan deployment Apps Script Anda disetel ke 'Anyone'.");
+          showNotification('Kesalahan Koneksi', 'Gagal terhubung ke database. Pastikan koneksi internet Anda stabil dan deployment Apps Script disetel ke "Anyone".', 'error');
           console.error(err);
         });
     }
@@ -241,18 +348,19 @@
           document.getElementById('btnSimpan').disabled = false;
 
           if (response.sukses) {
-            alert(response.pesan);
-            // Hapus draft di memori browser karena data sudah resmi masuk ke Google Sheets
-            sessionStorage.removeItem("draft_fisik_" + nisn);
-            keluar();
+            showNotification('Berhasil! 🎉', response.pesan || 'Data fisik Anda telah berhasil disimpan ke database.', 'success', () => {
+              // Hapus draft di memori browser karena data sudah resmi masuk ke Google Sheets
+              sessionStorage.removeItem("draft_fisik_" + nisn);
+              keluar();
+            });
           } else {
-            alert("Gagal Menyimpan: " + response.pesan);
+            showNotification('Gagal Menyimpan', response.pesan || 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.', 'error');
           }
         })
         .catch(err => {
           document.getElementById('loadingSimpan').style.display = 'none';
           document.getElementById('btnSimpan').disabled = false;
-          alert("Terjadi kesalahan sistem saat mencoba menyimpan.");
+          showNotification('Kesalahan Sistem', 'Terjadi kesalahan saat mencoba menyimpan data. Periksa koneksi Anda dan coba lagi.', 'error');
           console.error(err);
         });
     }
