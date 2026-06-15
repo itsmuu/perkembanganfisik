@@ -3,18 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Form Pendataan Perkembangan Fisik Siswa</title>
+  <title>Form Pendataan & Cetak Perkembangan Fisik Siswa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #f1f5f9; font-family: 'Segoe UI', Arial, sans-serif; }
     .main-container { padding-top: 50px; padding-bottom: 60px; }
     .card-custom { max-width: 700px; margin: 0 auto; background: #ffffff; border-radius: 20px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 35px !important; }
     .header-logo { max-height: 70px; display: block; margin: 0 auto 15px; }
-    .btn-custom { background-color: #2563eb; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; }
-    .btn-custom:hover { background-color: #1d4ed8; }
+    .btn-custom { background-color: #2563eb; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; cursor: pointer; transition: all 0.3s ease; }
+    .btn-custom:hover { background-color: #1d4ed8; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3); }
+    .btn-custom:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; }
+    .btn-success-custom { background-color: #10b981; color: white; font-weight: 600; border-radius: 10px; padding: 12px; border: none; cursor: pointer; transition: all 0.3s ease; }
+    .btn-success-custom:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3); }
+    .btn-success-custom:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; }
     .section-title { font-weight: 700; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; font-size: 1rem; }
     .page { display: none; }
     .active-page { display: block; }
+
+    /* Print Button Styles */
+    .btn-print-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-print-group button { flex: 1; min-width: 150px; }
+
+    /* ==========================================================================
+       2. CSS KHUSUS UNTUK HALAMAN CETAK (PRINT LAYOUT)
+       ========================================================================== */
+    #print-area {
+        display: none;
+    }
+
+    @media print {
+        body *, .main-container, .card-custom, form, button, .alert {
+            display: none !important;
+        }
+        
+        #print-area {
+            display: block !important;
+            font-family: 'Arial', sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000;
+            background: #fff;
+            padding: 0;
+            margin: 0;
+        }
+
+        .print-page {
+            box-sizing: border-box;
+            padding: 10mm;
+            page-break-after: always;
+        }
+
+        .kop-surat {
+            text-align: center;
+            border-bottom: 3px double #000;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+        .kop-surat h1 { font-size: 13pt; margin: 0; font-weight: bold; }
+        .kop-surat h2 { font-size: 15pt; margin: 0; font-weight: bold; }
+        .kop-surat p { font-size: 8.5pt; margin: 3px 0 0 0; font-style: italic; text-align: center; }
+
+        .judul-dokumen {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .judul-dokumen h3 { font-size: 12pt; margin: 0 0 3px 0; font-weight: bold; text-decoration: underline; }
+        .judul-dokumen h4 { font-size: 11pt; margin: 0; font-weight: bold; }
+
+        table.table-identitas {
+            width: 100%;
+            margin-bottom: 15px;
+            border-collapse: collapse;
+        }
+        table.table-identitas td {
+            padding: 4px 0;
+            vertical-align: top;
+            border: none !important;
+        }
+        table.table-identitas td.label { width: 18%; font-weight: bold; }
+        table.table-identitas td.colon { width: 3%; }
+        table.table-identitas td.value { width: 79%; }
+
+        table.table-data-fisik {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table.table-data-fisik th, table.table-data-fisik td {
+            border: 1px solid #000 !important;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 10pt;
+        }
+        table.table-data-fisik th {
+            font-weight: bold;
+            background-color: #f2f2f2 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        table.table-catatan {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 35px;
+        }
+        table.table-catatan td {
+            border: 1px solid #000 !important;
+            padding: 12px;
+            text-align: left;
+            font-style: italic;
+            min-height: 60px;
+        }
+
+        table.table-ttd {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.table-ttd td {
+            width: 50%;
+            text-align: center;
+            border: none !important;
+            vertical-align: top;
+        }
+        .space-ttd {
+            height: 75px;
+        }
+    }
   </style>
 </head>
 <body>
@@ -23,7 +137,7 @@
     
     <div id="pageLogin" class="page active-page mt-5">
       <div class="card card-custom" style="max-width: 480px;">
-        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" class="header-logo" alt="Logo Sekolah">
+        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" class="header-logo" alt="Logo Sekolah">
         <h4 class="text-center fw-bold mb-1" style="color: #1e3a8a;">Form Pendataan Fisik</h4>
         <p class="text-muted text-center small mb-4">Silakan masukkan NISN Anda untuk mengisi data</p>
         
@@ -44,6 +158,7 @@
     <div id="pageForm" class="page">
       <div class="card card-custom">
         <div class="text-center mb-4">
+          <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" style="max-height: 50px; margin-bottom: 10px;" alt="Logo Sekolah">
           <h4 class="fw-bold mb-0" style="color: #1e3a8a;">INPUT PERKEMBANGAN FISIK SISWA</h4>
           <p class="text-muted small">SMK NEGERI 1 BATAM | TA 2025/2026</p>
         </div>
@@ -58,6 +173,7 @@
 
         <form id="formFisik" onsubmit="prosesSimpan(event)">
           <input type="hidden" id="siswaBaris">
+          <input type="hidden" id="catatanWalasSembunyi">
 
           <div class="section-title">1. INDIKATOR BERKACAMATA (YA / TIDAK)</div>
           <div class="row g-3">
@@ -81,11 +197,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" id="kepalaAwal" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="kepalaAwal" class="form-control" placeholder="Contoh: 52" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" id="kepalaAkhir" class="form-control" placeholder="Contoh: 12" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="kepalaAkhir" class="form-control" placeholder="Contoh: 53" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -93,11 +209,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" id="tinggiAkhir" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="tinggiAkhir" class="form-control" placeholder="Contoh: 167" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -105,31 +221,37 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (KG)</label>
-              <input type="number" id="beratAwal" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="beratAwal" class="form-control" placeholder="Contoh: 60" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (KG)</label>
-              <input type="number" id="beratAkhir" class="form-control" placeholder="Contoh: 70" oninput="simpanDraft()" required>
+              <input type="number" step="any" id="beratAkhir" class="form-control" placeholder="Contoh: 62" oninput="simpanDraft()" required>
             </div>
           </div>
 
-          <div class="mt-5 d-flex gap-3">
+          <div class="mt-5 d-flex gap-2 justify-content-between">
             <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
-            <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
+            <div class="btn-print-group flex-grow-1">
+              <button type="submit" id="btnSimpan" class="btn btn-custom">Simpan Data ✔</button>
+              <button type="button" onclick="eksekusiCetakLaporan()" id="btnCetak" class="btn btn-success-custom">Cetak Rapor 🖨️</button>
+            </div>
           </div>
           
           <div id="loadingSimpan" class="text-center mt-3" style="display:none;">
             <div class="spinner-border text-success spinner-border-sm" role="status"></div>
             <span class="text-muted small ms-2">Sedang mengirim data ke Google Sheets...</span>
           </div>
+
+          <div id="statusMessage" class="mt-3" style="display:none;"></div>
         </form>
       </div>
     </div>
 
   </div>
 
+  <div id="print-area"></div>
+
   <script>
-    // ⚠️ GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT KAMU YANG ASLI
     const API_URL = "https://script.google.com/macros/s/AKfycbyei8K12Vqln8DteXQpHer8uatZqWUtlNa27OxyB_4_QjOoHbYf0ngzlHrEBsG0KUpBHA/exec";
 
     function prosesLogin() {
@@ -149,17 +271,17 @@
           document.getElementById('btnLogin').disabled = false;
 
           if (response.sukses) {
-            // Set data teks identitas atas
             document.getElementById('txtNama').innerText = response.nama;
             document.getElementById('txtNisn').innerText = response.nisn;
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
+            
+            // Penanganan variasi nama kolom Catatan Wali Kelas dari spreadsheet
+            document.getElementById('catatanWalasSembunyi').value = response['Catatan Wali Kelas'] || response['Catatan Walas'] || response['catatanWalas'] || '-';
 
-            // FITUR SESSION STORAGE: Cek apakah ada draft ketikan lama di browser
             const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
             
             if (draft) {
-              // Jika ada draft karena tidak sengaja ter-refresh, pakai data draft browser
               const dataDraft = JSON.parse(draft);
               document.getElementById('kacamataAwal').value = dataDraft.kAwal;
               document.getElementById('kacamataAkhir').value = dataDraft.kAkhir;
@@ -170,7 +292,6 @@
               document.getElementById('beratAwal').value = dataDraft.bAwal;
               document.getElementById('beratAkhir').value = dataDraft.bAkhir;
             } else {
-              // Jika tidak ada draft, ambil data default asli dari Google Sheets
               document.getElementById('kacamataAwal').value = response.kacamataAwal || "TIDAK";
               document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "TIDAK";
               document.getElementById('kepalaAwal').value = response.kepalaAwal || "";
@@ -181,7 +302,6 @@
               document.getElementById('beratAkhir').value = response.beratAkhir || "";
             }
 
-            // Pindah halaman ke Formulir Input
             document.getElementById('pageLogin').classList.remove('active-page');
             document.getElementById('pageForm').classList.add('active-page');
           } else {
@@ -191,12 +311,11 @@
         .catch(err => {
           document.getElementById('loadingLogin').style.display = 'none';
           document.getElementById('btnLogin').disabled = false;
-          alert("Gagal terhubung ke database. Pastikan deployment Apps Script Anda disetel ke 'Anyone'.");
+          alert("Gagal terhubung ke database. Pastikan database aktif.");
           console.error(err);
         });
     }
 
-    // FUNGSI BARU: Otomatis menyimpan setiap ketikan ke memori sementara browser
     function simpanDraft() {
       const nisn = document.getElementById('txtNisn').innerText;
       if (!nisn) return;
@@ -241,20 +360,180 @@
           document.getElementById('btnSimpan').disabled = false;
 
           if (response.sukses) {
-            alert(response.pesan);
-            // Hapus draft di memori browser karena data sudah resmi masuk ke Google Sheets
             sessionStorage.removeItem("draft_fisik_" + nisn);
-            keluar();
+            showStatusMessage("success", "✔ Data perkembangan fisik Anda berhasil disimpan ke Google Sheets!");
           } else {
-            alert("Gagal Menyimpan: " + response.pesan);
+            showStatusMessage("error", "✗ Gagal Menyimpan: " + response.pesan);
           }
         })
         .catch(err => {
           document.getElementById('loadingSimpan').style.display = 'none';
           document.getElementById('btnSimpan').disabled = false;
-          alert("Terjadi kesalahan sistem saat mencoba menyimpan.");
+          showStatusMessage("error", "✗ Terjadi kesalahan sistem saat mencoba menyimpan.");
           console.error(err);
         });
+    }
+
+    function showStatusMessage(type, message) {
+      const statusDiv = document.getElementById('statusMessage');
+      statusDiv.className = type === 'success' 
+        ? 'alert alert-success alert-dismissible fade show' 
+        : 'alert alert-danger alert-dismissible fade show';
+      statusDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      statusDiv.style.display = 'block';
+      
+      if (type === 'success') {
+        setTimeout(() => {
+          statusDiv.style.display = 'none';
+        }, 5000);
+      }
+    }
+
+    function validateFormBeforePrint() {
+      const fields = [
+        { id: 'kacamataAwal', name: 'Berkacamata Awal Semester' },
+        { id: 'kacamataAkhir', name: 'Berkacamata Akhir Semester' },
+        { id: 'kepalaAwal', name: 'Lingkar Kepala Awal Semester' },
+        { id: 'kepalaAkhir', name: 'Lingkar Kepala Akhir Semester' },
+        { id: 'tinggiAwal', name: 'Tinggi Badan Awal Semester' },
+        { id: 'tinggiAkhir', name: 'Tinggi Badan Akhir Semester' },
+        { id: 'beratAwal', name: 'Berat Badan Awal Semester' },
+        { id: 'beratAkhir', name: 'Berat Badan Akhir Semester' }
+      ];
+
+      for (let field of fields) {
+        const value = document.getElementById(field.id).value;
+        if (!value || (field.id.includes('kepala') || field.id.includes('tinggi') || field.id.includes('berat')) && isNaN(parseFloat(value))) {
+          showStatusMessage("error", `✗ Silakan lengkapi: ${field.name}`);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function eksekusiCetakLaporan() {
+      // Validasi form sebelum cetak
+      if (!validateFormBeforePrint()) {
+        return;
+      }
+
+      // Mengambil teks identitas real-time dari komponen web app
+      const nama = document.getElementById('txtNama').innerText || '-';
+      const nisn = document.getElementById('txtNisn').innerText || '-';
+      const kelas = document.getElementById('txtKelas').innerText || '-';
+      
+      // Mengambil nilai angka/indikator real-time yang sedang tertera di form input
+      const kacamataAwal = document.getElementById('kacamataAwal').value || '-';
+      const kacamataAkhir = document.getElementById('kacamataAkhir').value || '-';
+      const kepalaAwal = document.getElementById('kepalaAwal').value || '-';
+      const kepalaAkhir = document.getElementById('kepalaAkhir').value || '-';
+      const tinggiAwal = document.getElementById('tinggiAwal').value || '-';
+      const tinggiAkhir = document.getElementById('tinggiAkhir').value || '-';
+      const beratAwal = document.getElementById('beratAwal').value || '-';
+      const beratAkhir = document.getElementById('beratAkhir').value || '-';
+      const catatan = document.getElementById('catatanWalasSembunyi').value || '-';
+
+      const printArea = document.getElementById('print-area');
+      
+      // Inject struktur dokumen resmi SMKN 1 Batam ke printer browser
+      printArea.innerHTML = `
+        <div class="print-page">
+            <div class="kop-surat">
+                <h1>PEMERINTAH PROVINSI KEPULAUAN RIAU</h1>
+                <h2>DINAS PENDIDIKAN</h2>
+                <h1>SMK NEGERI 1 BATAM</h1>
+                <p>Jl. Prof Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam - Kode Pos 29422 Telepon (0778) 365909</p>
+                <p>E-mail: mail@smkn1batam.sch.id, Website: www.smkn1batam.sch.id</p>
+            </div>
+
+            <div class="judul-dokumen">
+                <h3>CATATAN INDIVIDU PERKEMBANGAN FISIK SISWA</h3>
+                <h4>SEMESTER GENAP</h4>
+                <h4>TAHUN PELAJARAN : 2025 / 2026</h4>
+            </div>
+
+            <table class="table-identitas">
+                <tr>
+                    <td class="label">NAMA</td>
+                    <td class="colon">:</td>
+                    <td class="value"><strong>${nama.toUpperCase()}</strong></td>
+                </tr>
+                <tr>
+                    <td class="label">NIS / NISN</td>
+                    <td class="colon">:</td>
+                    <td class="value">${nisn}</td>
+                </tr>
+                <tr>
+                    <td class="label">KELAS</td>
+                    <td class="colon">:</td>
+                    <td class="value">${kelas}</td>
+                </tr>
+            </table>
+
+            <table class="table-data-fisik">
+                <thead>
+                    <tr>
+                        <th colspan="2">BERKACA MATA (YA/TIDAK)</th>
+                        <th colspan="2">LINGKAR KEPALA (CM)</th>
+                        <th colspan="2">TINGGI BADAN (CM)</th>
+                        <th colspan="2">BERAT BADAN (KG)</th>
+                    </tr>
+                    <tr>
+                        <th>AWAL SEMESTER</th>
+                        <th>AKHIR SEMESTER</th>
+                        <th>AWAL SEMESTER</th>
+                        <th>AKHIR SEMESTER</th>
+                        <th>AWAL SEMESTER</th>
+                        <th>AKHIR SEMESTER</th>
+                        <th>AWAL SEMESTER</th>
+                        <th>AKHIR SEMESTER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${kacamataAwal}</td>
+                        <td>${kacamataAkhir}</td>
+                        <td>${kepalaAwal}</td>
+                        <td>${kepalaAkhir}</td>
+                        <td>${tinggiAwal}</td>
+                        <td>${tinggiAkhir}</td>
+                        <td>${beratAwal}</td>
+                        <td>${beratAkhir}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table-catatan">
+                <tr>
+                    <td><strong>CATATAN WALI KELAS :</strong> <br><br>${catatan}</td>
+                </tr>
+            </table>
+
+            <table class="table-ttd">
+                <tr>
+                    <td>
+                        Mengetahui<br>Orangtua/Wali Murid,<br>
+                        <div class="space-ttd"></div>
+                        __________________________
+                    </td>
+                    <td>
+                        Batam, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Juni 2026<br>Wali Kelas,<br>
+                        <div class="space-ttd"></div>
+                        <strong>Mugiyono, S.Kom.</strong><br>
+                        NIPPPK. 199808062025211083
+                    </td>
+                </tr>
+            </table>
+        </div>
+      `;
+
+      // Tunggu sebentar untuk memastikan content terender, baru panggil print
+      setTimeout(() => {
+        window.print();
+      }, 100);
     }
 
     function keluar() {
@@ -262,6 +541,8 @@
       document.getElementById('pageLogin').classList.add('active-page');
       document.getElementById('nisnInput').value = "";
       document.getElementById('formFisik').reset();
+      document.getElementById('print-area').innerHTML = "";
+      document.getElementById('statusMessage').style.display = "none";
     }
   </script>
 </body>
