@@ -202,15 +202,15 @@
             </div>
           </div>
 
-          <div class="mt-5 d-flex gap-3">
+          <div class="mt-5 d-flex gap-2 flex-wrap">
             <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
-            <button type="button" onclick="bukaLaporan()" class="btn btn-laporan flex-grow-1">📄 Lihat Laporan</button>
+            <button type="button" onclick="generateLaporanDocs()" id="btnLaporan" class="btn btn-laporan flex-grow-1">📄 Generate Laporan</button>
             <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
           </div>
           
           <div id="loadingSimpan" class="text-center mt-3" style="display:none;">
             <div class="spinner-border text-success spinner-border-sm" role="status"></div>
-            <span class="text-muted small ms-2">Sedang mengirim data ke Google Sheets...</span>
+            <span class="text-muted small ms-2">Sedang memproses...</span>
           </div>
         </form>
       </div>
@@ -224,6 +224,7 @@
   <script>
     // ⚠️ GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT KAMU YANG ASLI
     const API_URL = "https://script.google.com/macros/s/AKfycbyei8K12Vqln8DteXQpHer8uatZqWUtlNa27OxyB_4_QjOoHbYf0ngzlHrEBsG0KUpBHA/exec";
+    const DOCS_API_URL = "https://script.google.com/macros/s/AKfycbwEuom7XC7_lzWX6if-kKujXn4Lr265tH_IruueUu5VkI2GJRTVr8Ex2MQwFHKt0FFM1A/exec";
 
     // Fungsi untuk menampilkan toast notification
     function showToast(message, type = 'info', duration = 3000) {
@@ -336,8 +337,11 @@
       sessionStorage.setItem("draft_fisik_" + nisn, JSON.stringify(dataDraft));
     }
 
-    // Fungsi untuk membuka halaman laporan
-    function bukaLaporan() {
+    // Fungsi untuk generate laporan di Google Docs
+    function generateLaporanDocs() {
+      document.getElementById('loadingSimpan').style.display = 'block';
+      document.getElementById('btnLaporan').disabled = true;
+
       const nama = document.getElementById('txtNama').innerText;
       const nisn = document.getElementById('txtNisn').innerText;
       const kelas = document.getElementById('txtKelas').innerText;
@@ -349,7 +353,12 @@
       const tinggiAkhir = document.getElementById('tinggiAkhir').value;
       const beratAwal = document.getElementById('beratAwal').value;
       const beratAkhir = document.getElementById('beratAkhir').value;
-      
+
+      // Format tanggal
+      const hari = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const tanggal = hari.toLocaleDateString('id-ID', options);
+
       const params = new URLSearchParams({
         nama: nama,
         nisn: nisn,
@@ -361,10 +370,36 @@
         tinggiAwal: tinggiAwal,
         tinggiAkhir: tinggiAkhir,
         beratAwal: beratAwal,
-        beratAkhir: beratAkhir
+        beratAkhir: beratAkhir,
+        tanggal: tanggal
       });
-      
-      window.open('laporan.html?' + params.toString(), '_blank');
+
+      fetch(DOCS_API_URL, {
+        method: 'POST',
+        body: params.toString(),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById('loadingSimpan').style.display = 'none';
+        document.getElementById('btnLaporan').disabled = false;
+
+        if (response.success) {
+          showToast('Laporan berhasil dibuat! Membuka dokumen...', 'success', 2000);
+          // Buka dokumen di tab baru
+          setTimeout(() => {
+            window.open(response.docUrl, '_blank');
+          }, 1500);
+        } else {
+          showToast('Gagal membuat laporan: ' + response.message, 'error');
+        }
+      })
+      .catch(err => {
+        document.getElementById('loadingSimpan').style.display = 'none';
+        document.getElementById('btnLaporan').disabled = false;
+        showToast('Terjadi kesalahan saat membuat laporan. Silakan coba lagi.', 'error');
+        console.error(err);
+      });
     }
 
     function prosesSimpan(event) {
