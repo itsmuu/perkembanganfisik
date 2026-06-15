@@ -40,7 +40,7 @@
             display: block !important;
             font-family: 'Arial', sans-serif;
             font-size: 11pt;
-            line-height: 1.4;
+            line-height: 1.5;
             color: #000;
             background: #fff;
             padding: 0;
@@ -49,84 +49,136 @@
 
         .print-page {
             box-sizing: border-box;
-            padding: 10mm;
+            padding: 15mm 20mm;
             page-break-after: always;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
         }
 
+        /* Header Section */
         .kop-surat {
             text-align: center;
-            border-bottom: 3px double #000;
-            padding-bottom: 8px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
         }
-        .kop-surat h1 { font-size: 13pt; margin: 0; font-weight: bold; }
-        .kop-surat h2 { font-size: 15pt; margin: 0; font-weight: bold; }
-        .kop-surat p { font-size: 8.5pt; margin: 3px 0 0 0; font-style: italic; text-align: center; }
+
+        .logo-section {
+            text-align: center;
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .logo-section img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 5px;
+        }
+
+        .kop-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .kop-text h1 { font-size: 12pt; margin: 2px 0; font-weight: bold; }
+        .kop-text h2 { font-size: 14pt; margin: 2px 0; font-weight: bold; }
+        .kop-text h3 { font-size: 11pt; margin: 2px 0; font-weight: bold; }
+        .kop-text p { font-size: 8pt; margin: 2px 0; }
 
         .judul-dokumen {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .judul-dokumen h3 { font-size: 12pt; margin: 0 0 3px 0; font-weight: bold; text-decoration: underline; }
-        .judul-dokumen h4 { font-size: 11pt; margin: 0; font-weight: bold; }
+        .judul-dokumen h4 { font-size: 10pt; margin: 2px 0; font-weight: bold; }
 
+        /* Identitas Table */
         table.table-identitas {
             width: 100%;
             margin-bottom: 15px;
             border-collapse: collapse;
         }
         table.table-identitas td {
-            padding: 4px 0;
+            padding: 5px 0;
             vertical-align: top;
             border: none !important;
         }
-        table.table-identitas td.label { width: 18%; font-weight: bold; }
+        table.table-identitas td.label { width: 20%; font-weight: bold; }
         table.table-identitas td.colon { width: 3%; }
-        table.table-identitas td.value { width: 79%; }
+        table.table-identitas td.value { width: 77%; }
 
+        /* Data Fisik Table */
         table.table-data-fisik {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #000;
         }
         table.table-data-fisik th, table.table-data-fisik td {
             border: 1px solid #000 !important;
-            padding: 8px 4px;
+            padding: 6px 4px;
             text-align: center;
-            font-size: 10pt;
+            font-size: 9pt;
         }
         table.table-data-fisik th {
             font-weight: bold;
-            background-color: #f2f2f2 !important;
+            background-color: #f0f0f0 !important;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
+        }
+
+        /* Catatan Section */
+        .catatan-label {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 5px;
         }
 
         table.table-catatan {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 35px;
+            margin-bottom: 20px;
         }
         table.table-catatan td {
             border: 1px solid #000 !important;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
-            font-style: italic;
-            min-height: 60px;
+            font-size: 9pt;
+            min-height: 80px;
+            vertical-align: top;
         }
 
+        /* Tanda Tangan Table */
         table.table-ttd {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         table.table-ttd td {
             width: 50%;
             text-align: center;
             border: none !important;
             vertical-align: top;
+            padding: 5px;
+            font-size: 10pt;
         }
         .space-ttd {
-            height: 75px;
+            height: 60px;
+            display: block;
+        }
+        .ttd-name {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+        .ttd-nip {
+            font-size: 8pt;
+            margin-top: 2px;
         }
     }
   </style>
@@ -180,6 +232,7 @@
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester</label>
               <select id="kacamataAwal" class="form-select" onchange="simpanDraft()" required>
+                <option value="">-- Pilih --</option>
                 <option value="TIDAK">TIDAK</option>
                 <option value="YA">YA</option>
               </select>
@@ -187,6 +240,7 @@
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester</label>
               <select id="kacamataAkhir" class="form-select" onchange="simpanDraft()" required>
+                <option value="">-- Pilih --</option>
                 <option value="TIDAK">TIDAK</option>
                 <option value="YA">YA</option>
               </select>
@@ -197,11 +251,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" step="any" id="kepalaAwal" class="form-control" placeholder="Contoh: 52" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="kepalaAwal" class="form-control" placeholder="Contoh: 52" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" step="any" id="kepalaAkhir" class="form-control" placeholder="Contoh: 53" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="kepalaAkhir" class="form-control" placeholder="Contoh: 53" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -209,11 +263,11 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (CM)</label>
-              <input type="number" step="any" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="tinggiAwal" class="form-control" placeholder="Contoh: 165" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (CM)</label>
-              <input type="number" step="any" id="tinggiAkhir" class="form-control" placeholder="Contoh: 167" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="tinggiAkhir" class="form-control" placeholder="Contoh: 167" oninput="simpanDraft()" required>
             </div>
           </div>
 
@@ -221,12 +275,17 @@
           <div class="row g-3">
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Awal Semester (KG)</label>
-              <input type="number" step="any" id="beratAwal" class="form-control" placeholder="Contoh: 60" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="beratAwal" class="form-control" placeholder="Contoh: 60" oninput="simpanDraft()" required>
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold text-muted small">Akhir Semester (KG)</label>
-              <input type="number" step="any" id="beratAkhir" class="form-control" placeholder="Contoh: 62" oninput="simpanDraft()" required>
+              <input type="number" step="0.1" id="beratAkhir" class="form-control" placeholder="Contoh: 62" oninput="simpanDraft()" required>
             </div>
+          </div>
+
+          <div class="section-title">5. CATATAN WALI KELAS</div>
+          <div class="mb-3">
+            <textarea id="catatanInput" class="form-control" rows="4" placeholder="Masukkan catatan (opsional)" oninput="simpanDraft()"></textarea>
           </div>
 
           <div class="mt-5 d-flex gap-2 justify-content-between">
@@ -277,7 +336,8 @@
             document.getElementById('siswaBaris').value = response.baris;
             
             // Penanganan variasi nama kolom Catatan Wali Kelas dari spreadsheet
-            document.getElementById('catatanWalasSembunyi').value = response['Catatan Wali Kelas'] || response['Catatan Walas'] || response['catatanWalas'] || '-';
+            const catatanWalas = response['Catatan Wali Kelas'] || response['Catatan Walas'] || response['catatanWalas'] || '';
+            document.getElementById('catatanWalasSembunyi').value = catatanWalas;
 
             const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
             
@@ -291,15 +351,17 @@
               document.getElementById('tinggiAkhir').value = dataDraft.tAkhir;
               document.getElementById('beratAwal').value = dataDraft.bAwal;
               document.getElementById('beratAkhir').value = dataDraft.bAkhir;
+              document.getElementById('catatanInput').value = dataDraft.catatan || '';
             } else {
-              document.getElementById('kacamataAwal').value = response.kacamataAwal || "TIDAK";
-              document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "TIDAK";
+              document.getElementById('kacamataAwal').value = response.kacamataAwal || "";
+              document.getElementById('kacamataAkhir').value = response.kacamataAkhir || "";
               document.getElementById('kepalaAwal').value = response.kepalaAwal || "";
               document.getElementById('kepalaAkhir').value = response.kepalaAkhir || "";
               document.getElementById('tinggiAwal').value = response.tinggiAwal || "";
               document.getElementById('tinggiAkhir').value = response.tinggiAkhir || "";
               document.getElementById('beratAwal').value = response.beratAwal || "";
               document.getElementById('beratAkhir').value = response.beratAkhir || "";
+              document.getElementById('catatanInput').value = catatanWalas;
             }
 
             document.getElementById('pageLogin').classList.remove('active-page');
@@ -328,7 +390,8 @@
         tAwal: document.getElementById('tinggiAwal').value,
         tAkhir: document.getElementById('tinggiAkhir').value,
         bAwal: document.getElementById('beratAwal').value,
-        bAkhir: document.getElementById('beratAkhir').value
+        bAkhir: document.getElementById('beratAkhir').value,
+        catatan: document.getElementById('catatanInput').value
       };
 
       sessionStorage.setItem("draft_fisik_" + nisn, JSON.stringify(dataDraft));
@@ -406,7 +469,7 @@
 
       for (let field of fields) {
         const value = document.getElementById(field.id).value;
-        if (!value || (field.id.includes('kepala') || field.id.includes('tinggi') || field.id.includes('berat')) && isNaN(parseFloat(value))) {
+        if (!value || isNaN(parseFloat(value))) {
           showStatusMessage("error", `✗ Silakan lengkapi: ${field.name}`);
           return false;
         }
@@ -420,12 +483,11 @@
         return;
       }
 
-      // Mengambil teks identitas real-time dari komponen web app
+      // Mengambil data dari form
       const nama = document.getElementById('txtNama').innerText || '-';
       const nisn = document.getElementById('txtNisn').innerText || '-';
       const kelas = document.getElementById('txtKelas').innerText || '-';
       
-      // Mengambil nilai angka/indikator real-time yang sedang tertera di form input
       const kacamataAwal = document.getElementById('kacamataAwal').value || '-';
       const kacamataAkhir = document.getElementById('kacamataAkhir').value || '-';
       const kepalaAwal = document.getElementById('kepalaAwal').value || '-';
@@ -434,32 +496,38 @@
       const tinggiAkhir = document.getElementById('tinggiAkhir').value || '-';
       const beratAwal = document.getElementById('beratAwal').value || '-';
       const beratAkhir = document.getElementById('beratAkhir').value || '-';
-      const catatan = document.getElementById('catatanWalasSembunyi').value || '-';
+      const catatan = document.getElementById('catatanInput').value || document.getElementById('catatanWalasSembunyi').value || '-';
 
       const printArea = document.getElementById('print-area');
       
-      // Inject struktur dokumen resmi SMKN 1 Batam ke printer browser
+      // Generate dokumen sesuai format resmi SMKN 1 Batam
       printArea.innerHTML = `
         <div class="print-page">
             <div class="kop-surat">
-                <h1>PEMERINTAH PROVINSI KEPULAUAN RIAU</h1>
-                <h2>DINAS PENDIDIKAN</h2>
-                <h1>SMK NEGERI 1 BATAM</h1>
-                <p>Jl. Prof Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam - Kode Pos 29422 Telepon (0778) 365909</p>
-                <p>E-mail: mail@smkn1batam.sch.id, Website: www.smkn1batam.sch.id</p>
+                <div class="logo-section">
+                    <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" alt="Logo">
+                </div>
+                <div class="kop-text">
+                    <h1>PEMERINTAH PROVINSI KEPULAUAN RIAU</h1>
+                    <h1>DINAS PENDIDIKAN</h1>
+                    <h2>SMK NEGERI 1 BATAM</h2>
+                    <p>Jl. Prof Dr. Hamka No. 1 Kibing, Kec. Batu Aji, Kota Batam - Kode Pos 29422</p>
+                    <p>Telepon (0778) 365909 | E-mail: mail@smkn1batam.sch.id</p>
+                    <p>Website: www.smkn1batam.sch.id</p>
+                </div>
             </div>
 
             <div class="judul-dokumen">
                 <h3>CATATAN INDIVIDU PERKEMBANGAN FISIK SISWA</h3>
-                <h4>SEMESTER GENAP</h4>
-                <h4>TAHUN PELAJARAN : 2025 / 2026</h4>
+                <h4>SEMESTER GANJIL</h4>
+                <h4>TAHUN PELAJARAN: 2025 / 2026</h4>
             </div>
 
             <table class="table-identitas">
                 <tr>
                     <td class="label">NAMA</td>
                     <td class="colon">:</td>
-                    <td class="value"><strong>${nama.toUpperCase()}</strong></td>
+                    <td class="value">${nama.toUpperCase()}</td>
                 </tr>
                 <tr>
                     <td class="label">NIS / NISN</td>
@@ -476,20 +544,20 @@
             <table class="table-data-fisik">
                 <thead>
                     <tr>
-                        <th colspan="2">BERKACA MATA (YA/TIDAK)</th>
-                        <th colspan="2">LINGKAR KEPALA (CM)</th>
-                        <th colspan="2">TINGGI BADAN (CM)</th>
-                        <th colspan="2">BERAT BADAN (KG)</th>
+                        <th colspan="2" style="width: 25%;">BERKACA MATA<br>(YA/TIDAK)</th>
+                        <th colspan="2" style="width: 25%;">LINGKAR KEPALA<br>(CM)</th>
+                        <th colspan="2" style="width: 25%;">TINGGI BADAN<br>(CM)</th>
+                        <th colspan="2" style="width: 25%;">BERAT BADAN<br>(KG)</th>
                     </tr>
                     <tr>
-                        <th>AWAL SEMESTER</th>
-                        <th>AKHIR SEMESTER</th>
-                        <th>AWAL SEMESTER</th>
-                        <th>AKHIR SEMESTER</th>
-                        <th>AWAL SEMESTER</th>
-                        <th>AKHIR SEMESTER</th>
-                        <th>AWAL SEMESTER</th>
-                        <th>AKHIR SEMESTER</th>
+                        <th>AWAL<br>SEMESTER</th>
+                        <th>AKHIR<br>SEMESTER</th>
+                        <th>AWAL<br>SEMESTER</th>
+                        <th>AKHIR<br>SEMESTER</th>
+                        <th>AWAL<br>SEMESTER</th>
+                        <th>AKHIR<br>SEMESTER</th>
+                        <th>AWAL<br>SEMESTER</th>
+                        <th>AKHIR<br>SEMESTER</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -506,9 +574,10 @@
                 </tbody>
             </table>
 
+            <div class="catatan-label">CATATAN WALI KELAS:</div>
             <table class="table-catatan">
                 <tr>
-                    <td><strong>CATATAN WALI KELAS :</strong> <br><br>${catatan}</td>
+                    <td>${catatan}</td>
                 </tr>
             </table>
 
@@ -516,14 +585,15 @@
                 <tr>
                     <td>
                         Mengetahui<br>Orangtua/Wali Murid,<br>
-                        <div class="space-ttd"></div>
-                        __________________________
+                        <span class="space-ttd"></span>
+                        <div class="ttd-name" style="text-decoration: none;"></div>
+                        <div style="margin-top: 5px;">_______________________</div>
                     </td>
                     <td>
-                        Batam, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Juni 2026<br>Wali Kelas,<br>
-                        <div class="space-ttd"></div>
-                        <strong>Mugiyono, S.Kom.</strong><br>
-                        NIPPPK. 199808062025211083
+                        Batam, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${getTanggalIndonesia()}<br>Wali Kelas,<br>
+                        <span class="space-ttd"></span>
+                        <div class="ttd-name">Mugiyono, S.Kom.</div>
+                        <div class="ttd-nip">NIPPPK. 199808062025211083</div>
                     </td>
                 </tr>
             </table>
@@ -534,6 +604,15 @@
       setTimeout(() => {
         window.print();
       }, 100);
+    }
+
+    function getTanggalIndonesia() {
+      const today = new Date();
+      const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const tanggal = today.getDate();
+      const bulanIndex = today.getMonth();
+      const tahun = today.getFullYear();
+      return `${tanggal} ${bulan[bulanIndex]} ${tahun}`;
     }
 
     function keluar() {
