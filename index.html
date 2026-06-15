@@ -233,9 +233,10 @@
             </div>
           </div>
 
-          <div class="mt-5 d-flex gap-3">
+          <div class="mt-5 d-flex flex-wrap gap-2">
             <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
-            <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
+            <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data ✔</button>
+            <button type="button" onclick="eksekusiCetakLaporan()" class="btn btn-success-custom flex-grow-1">Cetak Rapor 🖨️</button>
           </div>
           
           <div id="loadingSimpan" class="text-center mt-3" style="display:none;">
@@ -275,8 +276,7 @@
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
             
-            // Mengamankan data catatan walas bawaan sheet agar bisa masuk cetakan rapor
-            document.getElementById('catatanWalasSembunyi').value = response['Catatan Walas'] || response['catatanWalas'] || '-';
+            document.getElementById('catatanWalasSembunyi').value = response['Catatan Wali Kelas'] || response['Catatan Walas'] || response['catatanWalas'] || '-';
 
             const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
             
@@ -310,7 +310,7 @@
         .catch(err => {
           document.getElementById('loadingLogin').style.display = 'none';
           document.getElementById('btnLogin').disabled = false;
-          alert("Gagal terhubung ke database. Pastikan deployment Apps Script Anda disetel ke 'Anyone'.");
+          alert("Gagal terhubung ke database. Pastikan database aktif.");
           console.error(err);
         });
     }
@@ -356,19 +356,12 @@
         .then(res => res.json())
         .then(response => {
           document.getElementById('loadingSimpan').style.display = 'none';
+          document.getElementById('btnSimpan').disabled = false;
 
           if (response.sukses) {
             sessionStorage.removeItem("draft_fisik_" + nisn);
-            
-            // STRATEGI BARU: Mengubah tombol simpan menjadi tombol Cetak Rapor interaktif setelah data sukses dikirim
-            const btnContainer = document.querySelector('#formFisik .mt-5');
-            btnContainer.innerHTML = `
-              <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Selesai & Keluar</button>
-              <button type="button" onclick="eksekusiCetakLaporan()" class="btn btn-success-custom flex-grow-1">Data Tersimpan! Cetak Rapor Perkembangan Fisik 🖨️</button>
-            `;
-            alert("Data perkembangan fisik Anda berhasil disimpan ke Google Sheets! Silakan klik tombol hijau untuk langsung mencetak dokumen rapor.");
+            alert("Data perkembangan fisik Anda berhasil disimpan ke Google Sheets!");
           } else {
-            document.getElementById('btnSimpan').disabled = false;
             alert("Gagal Menyimpan: " + response.pesan);
           }
         })
@@ -380,7 +373,6 @@
         });
     }
 
-    // FUNGSI UTAMA: Memasukkan data form ke dalam template cetak resmi SMKN 1 Batam
     function eksekusiCetakLaporan() {
       const nama = document.getElementById('txtNama').innerText || '-';
       const nisn = document.getElementById('txtNisn').innerText || '-';
@@ -398,7 +390,6 @@
 
       const printArea = document.getElementById('print-area');
       
-      // Injecting template HTML cetak resmi penyesuaian PDF SMKN 1 Batam
       printArea.innerHTML = `
         <div class="print-page">
             <div class="kop-surat">
@@ -490,18 +481,10 @@
         </div>
       `;
 
-      // Menjalankan perintah cetak jendela sistem browser
       window.print();
     }
 
     function keluar() {
-      // Mengembalikan tombol semula ke posisi awal ketika form direset
-      const btnContainer = document.querySelector('#formFisik .mt-5');
-      btnContainer.innerHTML = `
-        <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
-        <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data Fisik ✔</button>
-      `;
-      
       document.getElementById('pageForm').classList.remove('active-page');
       document.getElementById('pageLogin').classList.add('active-page');
       document.getElementById('nisnInput').value = "";
