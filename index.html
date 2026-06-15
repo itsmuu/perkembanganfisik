@@ -23,19 +23,16 @@
 
     /* ==========================================================================
        2. CSS KHUSUS UNTUK HALAMAN CETAK (PRINT LAYOUT)
-       Mengikuti Template Resmi SMKN 1 Batam
        ========================================================================== */
     #print-area {
-        display: none; /* Sembunyikan sepenuhnya dari pandangan web browser */
+        display: none;
     }
 
     @media print {
-        /* Sembunyikan form input dan elemen website lainnya saat mencetak */
         body *, .main-container, .card-custom, form, button, .alert {
             display: none !important;
         }
         
-        /* Tampilkan kontainer cetak secara penuh */
         #print-area {
             display: block !important;
             font-family: 'Arial', sans-serif;
@@ -52,16 +49,15 @@
             padding: 10mm;
         }
 
-        /* Desain Struktur Kop Surat Instansi */
         .kop-surat {
             text-align: center;
             border-bottom: 3px double #000;
             padding-bottom: 8px;
             margin-bottom: 15px;
         }
-        .kop-surat h1 { font-size: 14pt; margin: 0; font-weight: bold; }
-        .kop-surat h2 { font-size: 16pt; margin: 0; font-weight: bold; }
-        .kop-surat p { font-size: 9pt; margin: 3px 0 0 0; font-style: italic; }
+        .kop-surat h1 { font-size: 13pt; margin: 0; font-weight: bold; }
+        .kop-surat h2 { font-size: 15pt; margin: 0; font-weight: bold; }
+        .kop-surat p { font-size: 8.5pt; margin: 3px 0 0 0; font-style: italic; text-align: center; }
 
         .judul-dokumen {
             text-align: center;
@@ -70,7 +66,6 @@
         .judul-dokumen h3 { font-size: 12pt; margin: 0 0 3px 0; font-weight: bold; text-decoration: underline; }
         .judul-dokumen h4 { font-size: 11pt; margin: 0; font-weight: bold; }
 
-        /* Tabel Identitas Siswa */
         table.table-identitas {
             width: 100%;
             margin-bottom: 15px;
@@ -81,11 +76,10 @@
             vertical-align: top;
             border: none !important;
         }
-        table.table-identitas td.label { width: 15%; font-weight: bold; }
+        table.table-identitas td.label { width: 18%; font-weight: bold; }
         table.table-identitas td.colon { width: 3%; }
-        table.table-identitas td.value { width: 82%; }
+        table.table-identitas td.value { width: 79%; }
 
-        /* Tabel Data Instrumen Fisik Utama */
         table.table-data-fisik {
             width: 100%;
             border-collapse: collapse;
@@ -104,7 +98,6 @@
             print-color-adjust: exact;
         }
 
-        /* Blok Catatan Wali Kelas */
         table.table-catatan {
             width: 100%;
             border-collapse: collapse;
@@ -115,10 +108,9 @@
             padding: 12px;
             text-align: left;
             font-style: italic;
-            min-height: 50px;
+            min-height: 60px;
         }
 
-        /* Format Area Tanda Tangan */
         table.table-ttd {
             width: 100%;
             border-collapse: collapse;
@@ -141,7 +133,7 @@
     
     <div id="pageLogin" class="page active-page mt-5">
       <div class="card card-custom" style="max-width: 480px;">
-        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" class="header-logo" alt="Logo Sekolah">
+        <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" class="header-logo" alt="Logo Sekolah">
         <h4 class="text-center fw-bold mb-1" style="color: #1e3a8a;">Form Pendataan Fisik</h4>
         <p class="text-muted text-center small mb-4">Silakan masukkan NISN Anda untuk mengisi data</p>
         
@@ -162,7 +154,7 @@
     <div id="pageForm" class="page">
       <div class="card card-custom">
         <div class="text-center mb-4">
-          <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png/" style="max-height: 50px; margin-bottom: 10px;" alt="Logo Sekolah">
+          <img src="https://ruangbelajar.smkn1batam.sch.id/pluginfile.php/1/core_admin/logocompact/300x300/1772024815/logo-smkn1batam.png" style="max-height: 50px; margin-bottom: 10px;" alt="Logo Sekolah">
           <h4 class="fw-bold mb-0" style="color: #1e3a8a;">INPUT PERKEMBANGAN FISIK SISWA</h4>
           <p class="text-muted small">SMK NEGERI 1 BATAM | TA 2025/2026</p>
         </div>
@@ -233,10 +225,12 @@
             </div>
           </div>
 
-          <div class="mt-5 d-flex flex-wrap gap-2">
+          <div class="mt-5 d-flex gap-2 justify-content-between">
             <button type="button" onclick="keluar()" class="btn btn-light border fw-semibold px-4" style="border-radius: 10px;">Keluar</button>
-            <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data ✔</button>
-            <button type="button" onclick="eksekusiCetakLaporan()" class="btn btn-success-custom flex-grow-1">Cetak Rapor 🖨️</button>
+            <div class="d-flex gap-2 flex-grow-1">
+              <button type="submit" id="btnSimpan" class="btn btn-custom flex-grow-1">Simpan Data ✔</button>
+              <button type="button" onclick="eksekusiCetakLaporan()" id="btnCetak" class="btn btn-success-custom flex-grow-1">Cetak Rapor 🖨️</button>
+            </div>
           </div>
           
           <div id="loadingSimpan" class="text-center mt-3" style="display:none;">
@@ -276,6 +270,7 @@
             document.getElementById('txtKelas').innerText = response.kelas;
             document.getElementById('siswaBaris').value = response.baris;
             
+            // Penanganan variasi nama kolom Catatan Wali Kelas dari spreadsheet
             document.getElementById('catatanWalasSembunyi').value = response['Catatan Wali Kelas'] || response['Catatan Walas'] || response['catatanWalas'] || '-';
 
             const draft = sessionStorage.getItem("draft_fisik_" + response.nisn);
@@ -360,7 +355,7 @@
 
           if (response.sukses) {
             sessionStorage.removeItem("draft_fisik_" + nisn);
-            alert("Data perkembangan fisik Anda berhasil disimpan ke Google Sheets!");
+            alert("Data perkembangan fisik Anda berhasil disimpan ke Google Sheets! Sekarang Anda bisa menekan tombol Cetak Rapor.");
           } else {
             alert("Gagal Menyimpan: " + response.pesan);
           }
@@ -374,10 +369,12 @@
     }
 
     function eksekusiCetakLaporan() {
+      // Mengambil teks identitas real-time dari komponen web app
       const nama = document.getElementById('txtNama').innerText || '-';
       const nisn = document.getElementById('txtNisn').innerText || '-';
       const kelas = document.getElementById('txtKelas').innerText || '-';
       
+      // Mengambil nilai angka/indikator real-time yang sedang tertera di form input
       const kacamataAwal = document.getElementById('kacamataAwal').value || '-';
       const kacamataAkhir = document.getElementById('kacamataAkhir').value || '-';
       const kepalaAwal = document.getElementById('kepalaAwal').value || '-';
@@ -390,6 +387,7 @@
 
       const printArea = document.getElementById('print-area');
       
+      // Inject struktur dokumen resmi SMKN 1 Batam ke printer browser
       printArea.innerHTML = `
         <div class="print-page">
             <div class="kop-surat">
@@ -447,12 +445,12 @@
                     <tr>
                         <td>${kacamataAwal}</td>
                         <td>${kacamataAkhir}</td>
-                        <td>${kepalaAwal} CM</td>
-                        <td>${kepalaAkhir} CM</td>
-                        <td>${tinggiAwal} CM</td>
-                        <td>${tinggiAkhir} CM</td>
-                        <td>${beratAwal} KG</td>
-                        <td>${beratAkhir} KG</td>
+                        <td>${kepalaAwal}</td>
+                        <td>${kepalaAkhir}</td>
+                        <td>${tinggiAwal}</td>
+                        <td>${tinggiAkhir}</td>
+                        <td>${beratAwal}</td>
+                        <td>${beratAkhir}</td>
                     </tr>
                 </tbody>
             </table>
